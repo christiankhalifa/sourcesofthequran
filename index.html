@@ -131,6 +131,43 @@
       font-size: 1.05rem;
       margin: 0;
     }
+    .legend {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+      color: #2d3748;
+      align-items: center;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .box {
+      width: 16px;
+      height: 16px;
+      border-radius: 0.25rem;
+      border: 1px solid #999;
+    }
+
+    .very-strong {
+      background-color: #c6f6d5;
+    }
+    .strong {
+      background-color: #fefcbf;
+    }
+    .moderate {
+      background-color: #fbd38d;
+    }
+    .weak {
+      background-color: #feb2b2;
+    }
+
 
 
   </style>
@@ -149,6 +186,15 @@
   
   <p class="subtitle">Contact: <a href="mailto:christiancaliphate@gmail.com">christiancaliphate@gmail.com</a></p>
 
+  <div class="legend">
+    <span class="legend-item"><span class="box very-strong"></span> ≥ 85% Very Strong</span>
+    <span class="legend-item"><span class="box strong"></span> 75–84% Strong</span>
+    <span class="legend-item"><span class="box moderate"></span> 60–74% Moderate</span>
+    <span class="legend-item"><span class="box weak"></span> &lt; 60% Weak</span>
+  </div>
+
+
+  
   <select id="chapterFilter">
     <option value="all">-- Select a Surah --</option>
     <option value="3">Surah 3</option>
@@ -336,9 +382,30 @@
       card.addEventListener('click', () => {
         card.classList.toggle('open');
       });
+
+      const similarityText = card.querySelector('.similarity');
+      if (similarityText) {
+        const match = similarityText.textContent.match(/(\d+)%/);
+        if (match) {
+          const percentage = parseInt(match[1]);
+          let bgColor = '';
+
+          if (percentage >= 85) {
+            bgColor = '#c6f6d5'; // green - very strong
+          } else if (percentage >= 75) {
+            bgColor = '#fefcbf'; // yellow - strong
+          } else if (percentage >= 60) {
+            bgColor = '#fbd38d'; // orange - moderate
+          } else {
+            bgColor = '#feb2b2'; // red - weak
+          }
+
+          card.style.backgroundColor = bgColor;
+        }
+      }
     });
 
-    document.getElementById('chapterFilter').addEventListener('change', function() {
+    document.getElementById('chapterFilter').addEventListener('change', function () {
       const selected = this.value;
       document.querySelectorAll('.card').forEach(card => {
         if (selected === 'all' || card.dataset.surah === selected) {
@@ -349,5 +416,7 @@
       });
     });
   </script>
+
+
 </body>
 </html>
