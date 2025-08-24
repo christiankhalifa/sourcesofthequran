@@ -592,26 +592,26 @@ The parallels presented here are not intended to claim that the Qur’an copied 
         card.classList.toggle('open');
       });
 
-      const similarityText = card.querySelector('.similarity');
-      if (similarityText) {
-        const match = similarityText.textContent.match(/(\d+)%/);
-        if (match) {
-          const percentage = parseInt(match[1]);
-          let bgColor = '';
+      // const similarityText = card.querySelector('.similarity');
+      // if (similarityText) {
+      //   const match = similarityText.textContent.match(/(\d+)%/);
+      //   if (match) {
+      //     const percentage = parseInt(match[1]);
+      //     let bgColor = '';
 
-          if (percentage >= 85) {
-            bgColor = '#c6f6d5'; // green - very strong
-          } else if (percentage >= 75) {
-            bgColor = '#fefcbf'; // yellow - strong
-          } else if (percentage >= 60) {
-            bgColor = '#fbd38d'; // orange - moderate
-          } else {
-            bgColor = '#feb2b2'; // red - weak
-          }
+      //     if (percentage >= 85) {
+      //       bgColor = '#c6f6d5'; // green - very strong
+      //     } else if (percentage >= 75) {
+      //       bgColor = '#fefcbf'; // yellow - strong
+      //     } else if (percentage >= 60) {
+      //       bgColor = '#fbd38d'; // orange - moderate
+      //     } else {
+      //       bgColor = '#feb2b2'; // red - weak
+      //     }
 
-          card.style.backgroundColor = bgColor;
-        }
-      }
+      //     card.style.backgroundColor = bgColor;
+      //   }
+      // }
     });
 
     document.getElementById('chapterFilter').addEventListener('change', function () {
