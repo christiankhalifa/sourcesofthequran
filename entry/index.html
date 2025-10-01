@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quran Reference Form</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 40px;
+      background: linear-gradient(135deg, #e0f7fa, #f1f8e9);
+    }
+    form {
+      max-width: 900px;
+      margin: auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.1);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px 30px;
+    }
+    h2 {
+      grid-column: 1 / -1;
+      text-align: center;
+      margin-bottom: 20px;
+      color: #2e7d32;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+      color: #333;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: #2e7d32;
+      box-shadow: 0 0 6px rgba(46,125,50,0.4);
+      outline: none;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+    button {
+      grid-column: 1 / -1;
+      margin-top: 15px;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      background: linear-gradient(135deg, #4caf50, #2e7d32);
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s;
+    }
+    button:hover {
+      background: linear-gradient(135deg, #43a047, #1b5e20);
+      transform: translateY(-2px);
+    }
+    @media (max-width: 768px) {
+      form {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <form id="myForm">
+    <h2>Quran Reference Form</h2>
+
+    <div>
+      <label for="surah">Surah Number:</label>
+      <input type="number" id="surah" name="surah" min="1" max="114" required>
+    </div>
+
+    <div>
+      <label for="ayat">Ayat:</label>
+      <input type="text" id="ayat" name="ayat" placeholder="e.g., 1-5">
+    </div>
+
+    <div>
+      <label for="category">Category:</label>
+      <select id="category" name="category">
+        <option value="">-- Select Category --</option>
+        <option value="Biblical">Biblical</option>
+        <option value="Jewish">Jewish</option>
+        <option value="Christian">Christian</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="reference">Reference:</label>
+      <input type="text" id="reference" name="reference">
+    </div>
+
+    <div>
+      <label for="link">Link to the Source:</label>
+      <input type="text" id="link" name="link">
+    </div>
+
+    <div>
+      <label for="source">Source Name:</label>
+      <input type="text" id="source" name="source">
+    </div>
+
+    <div>
+      <label for="author">Author:</label>
+      <input type="text" id="author" name="author">
+    </div>
+
+    <div>
+      <label for="rewr">Rewrite/Response:</label>
+      <input type="text" id="rewr" name="rewr">
+    </div>
+
+    <div>
+      <label for="lang">Presumed Original Language:</label>
+      <input type="text" id="lang" name="lang">
+    </div>
+
+    <div>
+      <label for="origin">Presumed Place of Origin:</label>
+      <input type="text" id="origin" name="origin">
+    </div>
+
+    <div>
+      <label for="credit-text">Credit for Text:</label>
+      <input type="text" id="credit-text" name="credit-text">
+    </div>
+
+    <div>
+      <label for="credit-ms">Credit for Manuscript Name:</label>
+      <input type="text" id="credit-ms" name="credit-ms">
+    </div>
+
+    <div>
+      <label for="ms-name">MS Name:</label>
+      <input type="text" id="ms-name" name="ms-name">
+    </div>
+
+    <div>
+      <label for="preserved-text">Preserved Text (.. to ..):</label>
+      <input type="text" id="preserved-text" name="preserved-text" placeholder="e.g., verse 2 to verse 10">
+    </div>
+
+    <div>
+      <label for="language">Language:</label>
+      <input type="text" id="language" name="language">
+    </div>
+
+    <div>
+      <label for="archive">Archive:</label>
+      <input type="text" id="archive" name="archive">
+    </div>
+
+    <div>
+      <label for="ref-ms">Reference to Manuscript:</label>
+      <input type="text" id="ref-ms" name="ref-ms">
+    </div>
+
+    <div>
+      <label for="ref-transcription">Reference to Manuscript Transcription:</label>
+      <input type="text" id="ref-transcription" name="ref-transcription">
+    </div>
+
+    <div>
+      <label for="translator">Translator:</label>
+      <input type="text" id="translator" name="translator">
+    </div>
+
+    <div>
+      <label for="ref-translation">Reference to Manuscript Translation:</label>
+      <input type="text" id="ref-translation" name="ref-translation">
+    </div>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbyZlsfkAcnPgTx1tuINpj_AVUPRk2f9TVzpQ6umaMm79IqMHIIxT2tHhtegyE4eivzlIQ/exec"; // replace with your Web App link
+    const form = document.getElementById("myForm");
+
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+      const formData = new FormData(form);
+
+      fetch(scriptURL, {
+        method: "POST",
+        body: formData
+      })
+      .then(response => response.text())
+      .then(() => {
+        alert("Submitted successfully!");
+        form.reset();
+      })
+      .catch(err => alert("Error: " + err));
+    });
+  </script>
+
+</body>
+</html>
