@@ -186,6 +186,41 @@
       <input type="text" id="ref-translation" name="ref-translation">
     </div>
 
+    <!-- 🔹 NEW FIELDS BELOW 🔹 -->
+
+    <div>
+      <label for="frequent-formula">Frequent Formula (F):</label>
+      <select id="frequent-formula" name="frequent-formula">
+        <option value="">-- Select --</option>
+        <option value="Yes">Yes</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="interpol">Interpolations (x):</label>
+      <input type="text" id="interpol" name="interpol" placeholder="Add multiple separated by ;">
+    </div>
+
+    <div>
+      <label for="unit">Unit (... to …):</label>
+      <input type="text" id="unit" name="unit" placeholder="e.g., 3:5 to 3:10">
+    </div>
+
+    <div>
+      <label for="par-pass-pp">Par. Pass. (PP):</label>
+      <input type="text" id="par-pass-pp" name="par-pass-pp" placeholder="Add multiple separated by ;">
+    </div>
+
+    <div>
+      <label for="par-pass-semicolon">Par. Pass. (;):</label>
+      <input type="text" id="par-pass-semicolon" name="par-pass-semicolon" placeholder="Add multiple separated by ;">
+    </div>
+
+    <div>
+      <label for="rel-passages">Rel. Passages (;):</label>
+      <input type="text" id="rel-passages" name="rel-passages" placeholder="Add multiple separated by ;">
+    </div>
+
     <button type="submit">Submit</button>
   </form>
 
@@ -197,16 +232,24 @@
       e.preventDefault();
       const formData = new FormData(form);
 
+      // Trim spaces and ensure multiple entries are separated by ";"
+      ["interpol", "par-pass-pp", "par-pass-semicolon", "rel-passages"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el && el.value) {
+          el.value = el.value.split(/[,;\n]+/).map(v => v.trim()).filter(v => v).join("; ");
+        }
+      });
+
       fetch(scriptURL, {
         method: "POST",
         body: formData
       })
       .then(response => response.text())
       .then(() => {
-        alert("Submitted successfully!");
+        alert("✅ Submitted successfully!");
         form.reset();
       })
-      .catch(err => alert("Error: " + err));
+      .catch(err => alert("❌ Error: " + err));
     });
   </script>
 
