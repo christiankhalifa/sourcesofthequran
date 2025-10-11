@@ -78,16 +78,8 @@
   <form id="myForm">
     <h2>Quran Reference Form</h2>
 
-    <div>
-      <label for="surah">Surah Number:</label>
-      <input type="number" id="surah" name="surah" min="1" max="114" required>
-    </div>
-
-    <div>
-      <label for="ayat">Ayat:</label>
-      <input type="text" id="ayat" name="ayat" placeholder="e.g., 1-5">
-    </div>
-
+    <div><label for="surah">Surah Number:</label><input type="number" id="surah" name="surah" min="1" max="114" required></div>
+    <div><label for="ayat">Ayat:</label><input type="text" id="ayat" name="ayat" placeholder="e.g., 1-5"></div>
     <div>
       <label for="category">Category:</label>
       <select id="category" name="category">
@@ -98,146 +90,61 @@
         <option value="Other">Other</option>
       </select>
     </div>
+    <div><label for="reference">Reference:</label><input type="text" id="reference" name="reference"></div>
+    <div><label for="link">Link to the Source:</label><input type="text" id="link" name="link"></div>
+    <div><label for="source">Source Name:</label><input type="text" id="source" name="source"></div>
+    <div><label for="rewr">Rewrite/Response:</label><input type="text" id="rewr" name="rewr"></div>
+    <div><label for="lang">Presumed Original Language:</label><input type="text" id="lang" name="lang"></div>
+    <div><label for="origin">Presumed Place of Origin:</label><input type="text" id="origin" name="origin"></div>
+    <div><label for="credit-text">Credit for Text:</label><input type="text" id="credit-text" name="credit-text"></div>
+    <div><label for="credit-ms">Credit for Manuscript Name:</label><input type="text" id="credit-ms" name="credit-ms"></div>
+    <div><label for="ms-name">MS Name:</label><input type="text" id="ms-name" name="ms-name"></div>
+    <div><label for="preserved-text">Preserved Text (.. to ..):</label><input type="text" id="preserved-text" name="preserved-text"></div>
+    <div><label for="language">Language:</label><input type="text" id="language" name="language"></div>
+    <div><label for="archive">Archive:</label><input type="text" id="archive" name="archive"></div>
+    <div><label for="ref-ms">Reference to Manuscript:</label><input type="text" id="ref-ms" name="ref-ms"></div>
+    <div><label for="ref-transcription">Reference to Manuscript Transcription:</label><input type="text" id="ref-transcription" name="ref-transcription"></div>
+    <div><label for="translator">Translator:</label><input type="text" id="translator" name="translator"></div>
+    <div><label for="ref-translation">Reference to Manuscript Translation:</label><input type="text" id="ref-translation" name="ref-translation"></div>
 
-    <div>
-      <label for="reference">Reference:</label>
-      <input type="text" id="reference" name="reference">
-    </div>
-
-    <div>
-      <label for="link">Link to the Source:</label>
-      <input type="text" id="link" name="link">
-    </div>
-
-    <div>
-      <label for="source">Source Name:</label>
-      <input type="text" id="source" name="source">
-    </div>
-
-    <div>
-      <label for="author">Author:</label>
-      <input type="text" id="author" name="author">
-    </div>
-
-    <div>
-      <label for="rewr">Rewrite/Response:</label>
-      <input type="text" id="rewr" name="rewr">
-    </div>
-
-    <div>
-      <label for="lang">Presumed Original Language:</label>
-      <input type="text" id="lang" name="lang">
-    </div>
-
-    <div>
-      <label for="origin">Presumed Place of Origin:</label>
-      <input type="text" id="origin" name="origin">
-    </div>
-
-    <div>
-      <label for="credit-text">Credit for Text:</label>
-      <input type="text" id="credit-text" name="credit-text">
-    </div>
-
-    <div>
-      <label for="credit-ms">Credit for Manuscript Name:</label>
-      <input type="text" id="credit-ms" name="credit-ms">
-    </div>
-
-    <div>
-      <label for="ms-name">MS Name:</label>
-      <input type="text" id="ms-name" name="ms-name">
-    </div>
-
-    <div>
-      <label for="preserved-text">Preserved Text (.. to ..):</label>
-      <input type="text" id="preserved-text" name="preserved-text" placeholder="e.g., verse 2 to verse 10">
-    </div>
-
-    <div>
-      <label for="language">Language:</label>
-      <input type="text" id="language" name="language">
-    </div>
-
-    <div>
-      <label for="archive">Archive:</label>
-      <input type="text" id="archive" name="archive">
-    </div>
-
-    <div>
-      <label for="ref-ms">Reference to Manuscript:</label>
-      <input type="text" id="ref-ms" name="ref-ms">
-    </div>
-
-    <div>
-      <label for="ref-transcription">Reference to Manuscript Transcription:</label>
-      <input type="text" id="ref-transcription" name="ref-transcription">
-    </div>
-
-    <div>
-      <label for="translator">Translator:</label>
-      <input type="text" id="translator" name="translator">
-    </div>
-
-    <div>
-      <label for="ref-translation">Reference to Manuscript Translation:</label>
-      <input type="text" id="ref-translation" name="ref-translation">
-    </div>
-
-    <!-- NEW FIELDS -->
+    <!-- New fields -->
     <div>
       <label for="frequent-formula">Frequent Formula (F):</label>
       <select id="frequent-formula" name="frequent-formula">
         <option value="">-- Select --</option>
         <option value="Yes">Yes</option>
+        <option value="No">No</option>
       </select>
     </div>
-
-    <div>
-      <label for="interpol">Interpol. (x):</label>
-      <input type="text" id="interpol" name="interpol" placeholder="Separate multiple with commas or semicolons">
-    </div>
-
-    <div>
-      <label for="unit">Unit (... to …):</label>
-      <input type="text" id="unit" name="unit" placeholder="e.g., 3:5 to 3:10">
-    </div>
-
-    <div>
-      <label for="par-pass-pp">Par. Pass. (PP):</label>
-      <input type="text" id="par-pass-pp" name="par-pass-pp" placeholder="Separate multiple with commas or semicolons">
-    </div>
-
-    <div>
-      <label for="par-pass-semicolon">Par. Pass. (;):</label>
-      <input type="text" id="par-pass-semicolon" name="par-pass-semicolon" placeholder="Separate multiple with commas or semicolons">
-    </div>
-
-    <div>
-      <label for="rel-passages">Rel. Passages (;):</label>
-      <input type="text" id="rel-passages" name="rel-passages" placeholder="Separate multiple with commas or semicolons">
-    </div>
+    <div><label for="interpol">Interpol. (x):</label><textarea id="interpol" name="interpol" placeholder="Separate multiple with ; if needed"></textarea></div>
+    <div><label for="unit">Unit (... to …):</label><input type="text" id="unit" name="unit" placeholder="e.g., verse 1 to verse 5"></div>
+    <div><label for="par-pass-pp">Par. Pass. (PP):</label><textarea id="par-pass-pp" name="par-pass-pp" placeholder="Separate multiple with ; if needed"></textarea></div>
+    <div><label for="par-pass-semicolon">Par. Pass. (;):</label><textarea id="par-pass-semicolon" name="par-pass-semicolon" placeholder="Separate multiple with ; if needed"></textarea></div>
+    <div><label for="rel-passages">Rel. Passages (;):</label><textarea id="rel-passages" name="rel-passages" placeholder="Separate multiple with ; if needed"></textarea></div>
 
     <button type="submit">Submit</button>
   </form>
 
   <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbw5ABxo4Karg0FI-bez4A4SxG8IMOHFFlumXQM0msjb51mJ1Jp176Lo-sGFX7brDLG5RA/exec"; // Replace with your deployed URL
+    const scriptURL = "https://script.google.com/macros/s/AKfycbxac2-DMlPOQX4JHVII-ayi5JZzaeVEbd0gl29QYLeAo5JPP8PMph6m8xwDliU1eVYYHA/exec";
     const form = document.getElementById("myForm");
 
     form.addEventListener("submit", e => {
       e.preventDefault();
 
-      // Normalize multi-value fields before sending
-      ["interpol", "par-pass-pp", "par-pass-semicolon", "rel-passages"].forEach(id => {
+      // Normalize multi-value fields
+      const multiFields = ["interpol", "par-pass-pp", "par-pass-semicolon", "rel-passages"];
+      multiFields.forEach(id => {
         const el = document.getElementById(id);
         if (el && el.value) {
-          el.value = el.value.split(/[,;\n]+/).map(v => v.trim()).filter(v => v).join("; ");
+          const val = el.value.trim();
+          if (/[,;\n]/.test(val)) {
+            el.value = val.split(/[,;\n]+/).map(v => v.trim()).filter(v => v).join("; ");
+          }
         }
       });
 
       const formData = new FormData(form);
-
       fetch(scriptURL, { method: "POST", body: formData })
         .then(res => res.text())
         .then(() => {
