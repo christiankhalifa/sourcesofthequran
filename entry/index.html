@@ -69,9 +69,7 @@
       transform: translateY(-2px);
     }
     @media (max-width: 768px) {
-      form {
-        grid-template-columns: 1fr;
-      }
+      form { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -186,8 +184,7 @@
       <input type="text" id="ref-translation" name="ref-translation">
     </div>
 
-    <!-- 🔹 NEW FIELDS BELOW 🔹 -->
-
+    <!-- NEW FIELDS -->
     <div>
       <label for="frequent-formula">Frequent Formula (F):</label>
       <select id="frequent-formula" name="frequent-formula">
@@ -197,8 +194,8 @@
     </div>
 
     <div>
-      <label for="interpol">Interpolations (x):</label>
-      <input type="text" id="interpol" name="interpol" placeholder="Add multiple separated by ;">
+      <label for="interpol">Interpol. (x):</label>
+      <input type="text" id="interpol" name="interpol" placeholder="Separate multiple with commas or semicolons">
     </div>
 
     <div>
@@ -208,31 +205,30 @@
 
     <div>
       <label for="par-pass-pp">Par. Pass. (PP):</label>
-      <input type="text" id="par-pass-pp" name="par-pass-pp" placeholder="Add multiple separated by ;">
+      <input type="text" id="par-pass-pp" name="par-pass-pp" placeholder="Separate multiple with commas or semicolons">
     </div>
 
     <div>
       <label for="par-pass-semicolon">Par. Pass. (;):</label>
-      <input type="text" id="par-pass-semicolon" name="par-pass-semicolon" placeholder="Add multiple separated by ;">
+      <input type="text" id="par-pass-semicolon" name="par-pass-semicolon" placeholder="Separate multiple with commas or semicolons">
     </div>
 
     <div>
       <label for="rel-passages">Rel. Passages (;):</label>
-      <input type="text" id="rel-passages" name="rel-passages" placeholder="Add multiple separated by ;">
+      <input type="text" id="rel-passages" name="rel-passages" placeholder="Separate multiple with commas or semicolons">
     </div>
 
     <button type="submit">Submit</button>
   </form>
 
   <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbw5ABxo4Karg0FI-bez4A4SxG8IMOHFFlumXQM0msjb51mJ1Jp176Lo-sGFX7brDLG5RA/exec"; // replace with your Web App link
+    const scriptURL = "YOUR_WEB_APP_URL_HERE"; // Replace with your deployed URL
     const form = document.getElementById("myForm");
 
     form.addEventListener("submit", e => {
       e.preventDefault();
-      const formData = new FormData(form);
 
-      // Trim spaces and ensure multiple entries are separated by ";"
+      // Normalize multi-value fields before sending
       ["interpol", "par-pass-pp", "par-pass-semicolon", "rel-passages"].forEach(id => {
         const el = document.getElementById(id);
         if (el && el.value) {
@@ -240,18 +236,16 @@
         }
       });
 
-      fetch(scriptURL, {
-        method: "POST",
-        body: formData
-      })
-      .then(response => response.text())
-      .then(() => {
-        alert("✅ Submitted successfully!");
-        form.reset();
-      })
-      .catch(err => alert("❌ Error: " + err));
+      const formData = new FormData(form);
+
+      fetch(scriptURL, { method: "POST", body: formData })
+        .then(res => res.text())
+        .then(() => {
+          alert("✅ Submitted successfully!");
+          form.reset();
+        })
+        .catch(err => alert("❌ Error: " + err));
     });
   </script>
-
 </body>
 </html>
