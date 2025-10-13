@@ -172,7 +172,7 @@
 
     <div id="frequent-formula-text-container" style="display:none;">
       <label for="frequent-formula-text">Frequent Formula Text:</label>
-      <input type="text" id="frequent-formula-text" name="frequent-formula-text" placeholder="Enter the repeated phrase">
+      <input type="text" id="frequent-formula-text" name="frequent-formula-details" placeholder="Enter the repeated phrase">
     </div>
 
     <div><label for="unit">Unit (... to …):</label><input type="text" id="unit" name="unit" placeholder="e.g., verse 1 to verse 5"></div>
@@ -194,7 +194,7 @@
 
     <div>
       <label for="rel-passages-select">Related Passages:</label>
-      <select id="rel-passages-select" name="rel-passages-select">
+      <select id="rel-passages-select" name="rel-passages-yesno">
         <option value="">-- Select --</option>
         <option value="Yes">Yes</option>
         <option value="No">No</option>
@@ -243,7 +243,7 @@
   </div>
 
   <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbxac2-DMlPOQX4JHVII-ayi5JZzaeVEbd0gl29QYLeAo5JPP8PMph6m8xwDliU1eVYYHA/exec";
+    const scriptURL = "https://script.google.com/macros/s/AKfycbzd86ZQRMg3mE6kCKFCo3ApkpqJJqe4voTy5Zu30EpxKDTSFUXVLHaU7YpFAupaArES4A/exec";
     const form = document.getElementById("myForm");
 
     function toggleLegend() {
