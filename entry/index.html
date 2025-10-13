@@ -10,10 +10,15 @@
       margin: 0;
       padding: 40px;
       background: linear-gradient(135deg, #e0f7fa, #f1f8e9);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
     }
+
     form {
+      flex: 1 1 600px;
       max-width: 900px;
-      margin: auto;
       background: #fff;
       padding: 30px;
       border-radius: 16px;
@@ -22,18 +27,21 @@
       grid-template-columns: 1fr 1fr;
       gap: 20px 30px;
     }
+
     h2 {
       grid-column: 1 / -1;
       text-align: center;
       margin-bottom: 20px;
       color: #2e7d32;
     }
+
     label {
       display: block;
       margin-bottom: 6px;
       font-weight: bold;
       color: #333;
     }
+
     input, select, textarea {
       width: 100%;
       padding: 10px;
@@ -42,15 +50,18 @@
       font-size: 14px;
       transition: all 0.3s ease;
     }
+
     input:focus, select:focus, textarea:focus {
       border-color: #2e7d32;
       box-shadow: 0 0 6px rgba(46,125,50,0.4);
       outline: none;
     }
+
     textarea {
       resize: vertical;
       min-height: 80px;
     }
+
     button {
       grid-column: 1 / -1;
       margin-top: 15px;
@@ -64,47 +75,52 @@
       cursor: pointer;
       transition: background 0.3s ease, transform 0.2s;
     }
+
     button:hover {
       background: linear-gradient(135deg, #43a047, #1b5e20);
       transform: translateY(-2px);
     }
 
-    .inline-field {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-    }
-    .inline-field select,
-    .inline-field input {
-      flex: 1;
-    }
-    .inline-field textarea {
-      flex: 2;
-      opacity: 0;
-      max-height: 0;
+    /* Collapsible Legend Styles */
+    .legend-box {
+      flex: 1 1 280px;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
       overflow: hidden;
-      transition: opacity 0.4s ease, max-height 0.4s ease;
-    }
-    .inline-field textarea.visible {
-      opacity: 1;
-      max-height: 300px;
+      height: fit-content;
     }
 
-    /* Fade animation for interpolation */
-    #interpol {
-      opacity: 0;
-      max-height: 0;
-      overflow: hidden;
-      transition: opacity 0.4s ease, max-height 0.4s ease;
-    }
-    #interpol.visible {
-      opacity: 1;
-      max-height: 300px;
+    .legend-header {
+      background: #2e7d32;
+      color: white;
+      padding: 14px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 16px;
     }
 
-    @media (max-width: 768px) {
-      form { grid-template-columns: 1fr; }
-      .inline-field { flex-direction: column; }
+    .legend-content {
+      display: none;
+      padding: 16px;
+      font-size: 13px;
+      color: #333;
+      max-height: 600px;
+      overflow-y: auto;
+      line-height: 1.5;
+    }
+
+    .legend-content p {
+      margin: 0 0 8px;
+    }
+
+    .legend-content strong {
+      color: #1b5e20;
+    }
+
+    @media (max-width: 900px) {
+      body { flex-direction: column; }
+      .legend-box { order: 2; }
     }
   </style>
 </head>
@@ -140,110 +156,129 @@
     <div><label for="language">Language:</label><input type="text" id="language" name="language"></div>
     <div><label for="archive">Archive:</label><input type="text" id="archive" name="archive"></div>
     <div><label for="ref-ms">Reference to Manuscript:</label><input type="text" id="ref-ms" name="ref-ms"></div>
-    <div><label for="date-range">Date Range:</label><input type="text" id="date-range" name="date-range" placeholder="e.g., 700–750 CE"></div>
+    <div><label for="date-range">Date Range:</label><input type="text" id="date-range" name="date-range"></div>
     <div><label for="ref-transcription">Reference to Manuscript Transcription:</label><input type="text" id="ref-transcription" name="ref-transcription"></div>
     <div><label for="translator">Translator:</label><input type="text" id="translator" name="translator"></div>
     <div><label for="ref-translation">Reference to Manuscript Translation:</label><input type="text" id="ref-translation" name="ref-translation"></div>
 
-    <!-- Frequent Formula -->
     <div>
       <label for="frequent-formula">Frequent Formula:</label>
-      <div class="inline-field">
-        <select id="frequent-formula" name="frequent-formula">
-          <option value="">-- Select --</option>
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
-        </select>
-        <textarea id="frequent-formula-text" name="frequent-formula-text" placeholder="Describe the frequent formula"></textarea>
-      </div>
+      <select id="frequent-formula" name="frequent-formula">
+        <option value="">-- Select --</option>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+      </select>
     </div>
 
-    <!-- Unit + Interpolation side by side -->
-    <div>
-      <label for="unit">Unit (... to …):</label>
-      <div class="inline-field">
-        <input type="text" id="unit" name="unit" placeholder="e.g., verse 1 to verse 5">
-        <textarea id="interpol" name="interpol" placeholder="Interpolation (separate multiple with ;)"></textarea>
-      </div>
+    <div id="frequent-formula-text-container" style="display:none;">
+      <label for="frequent-formula-text">Frequent Formula Text:</label>
+      <input type="text" id="frequent-formula-text" name="frequent-formula-text" placeholder="Enter the repeated phrase">
     </div>
 
-    <!-- Parallel Passages -->
+    <div><label for="unit">Unit (... to …):</label><input type="text" id="unit" name="unit" placeholder="e.g., verse 1 to verse 5"></div>
+    <div id="interpol-container" style="display:none;"><label for="interpol">Interpolation:</label><textarea id="interpol" name="interpol" placeholder="Separate multiple with ; if needed"></textarea></div>
+
     <div>
       <label for="par-pass-pp">Parallel Passages:</label>
-      <div class="inline-field">
-        <select id="par-pass-pp" name="par-pass-pp">
-          <option value="">-- Select --</option>
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
-        </select>
-        <textarea id="par-pass-semicolon" name="par-pass-semicolon" placeholder="Separate multiple with ; if needed"></textarea>
-      </div>
+      <select id="par-pass-pp" name="par-pass-pp">
+        <option value="">-- Select --</option>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+      </select>
     </div>
 
-    <!-- Related Passages -->
+    <div id="par-pass-semicolon-container" style="display:none;">
+      <label for="par-pass-semicolon">Parallel Passages:</label>
+      <textarea id="par-pass-semicolon" name="par-pass-semicolon" placeholder="Separate multiple with ; if needed"></textarea>
+    </div>
+
     <div>
       <label for="rel-passages-select">Related Passages:</label>
-      <div class="inline-field">
-        <select id="rel-passages-select" name="rel-passages-select">
-          <option value="">-- Select --</option>
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
-        </select>
-        <textarea id="rel-passages" name="rel-passages" placeholder="Separate multiple with ; if needed"></textarea>
-      </div>
+      <select id="rel-passages-select" name="rel-passages-select">
+        <option value="">-- Select --</option>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+      </select>
+    </div>
+
+    <div id="rel-passages-container" style="display:none;">
+      <label for="rel-passages">Related Passages:</label>
+      <textarea id="rel-passages" name="rel-passages" placeholder="Separate multiple with ; if needed"></textarea>
     </div>
 
     <button type="submit">Submit</button>
   </form>
 
+  <!-- Collapsible Legend -->
+  <div class="legend-box">
+    <div class="legend-header" onclick="toggleLegend()">📘 Field Legend</div>
+    <div class="legend-content" id="legend">
+      <p><strong>Surah:</strong> Chapter number in the Qur’an (1–114).</p>
+      <p><strong>Ayat:</strong> Verse(s) within the Surah (e.g., 1–5).</p>
+      <p><strong>Category:</strong> Theme classification — Biblical, Jewish, Christian, or Other.</p>
+      <p><strong>Reference:</strong> The specific text or source cited.</p>
+      <p><strong>Link:</strong> URL to the reference or source.</p>
+      <p><strong>Source:</strong> Title or origin of the text or manuscript.</p>
+      <p><strong>Rewrite/Response:</strong> Your rewritten version or interpretation.</p>
+      <p><strong>Presumed Original Language:</strong> Original writing language (e.g., Hebrew, Greek).</p>
+      <p><strong>Presumed Place of Origin:</strong> Geographic region where the text originated.</p>
+      <p><strong>Credit for Text:</strong> Acknowledgment of the author or provider of the text.</p>
+      <p><strong>Credit for Manuscript Name:</strong> Name of person or institution credited for the manuscript.</p>
+      <p><strong>MS Name:</strong> The official manuscript name or catalog ID.</p>
+      <p><strong>Preserved Text:</strong> Portion of the text that is preserved (e.g., verses 10–15).</p>
+      <p><strong>Language:</strong> The current language of the text.</p>
+      <p><strong>Archive:</strong> Archive or library where the manuscript is held.</p>
+      <p><strong>Reference to Manuscript:</strong> Citation or shelf ID of the manuscript.</p>
+      <p><strong>Date Range:</strong> Estimated period the text/manuscript was written.</p>
+      <p><strong>Reference to Manuscript Transcription:</strong> Citation for transcribed versions.</p>
+      <p><strong>Translator:</strong> Person who translated the manuscript.</p>
+      <p><strong>Reference to Manuscript Translation:</strong> Citation or link for the translation.</p>
+      <p><strong>Frequent Formula:</strong> Marks recurring formulaic phrases (e.g., “In the name of God…”).</p>
+      <p><strong>Frequent Formula Text:</strong> The phrase itself if “Yes” was selected.</p>
+      <p><strong>Unit:</strong> Textual range under discussion (e.g., verse 1–5).</p>
+      <p><strong>Interpolation:</strong> Later additions or insertions in text; separate with “;”.</p>
+      <p><strong>Parallel Passages:</strong> Identifies whether parallel texts exist elsewhere.</p>
+      <p><strong>Related Passages:</strong> Other related or thematically similar verses.</p>
+    </div>
+  </div>
+
   <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbxrON6JKaLU8BY-Q_Wz9-hfA7vCazhbwBjrvP7vAnDWTURD5pIAijJ2mDX1Zk_zcQhRkg/exec";
+    const scriptURL = "https://script.google.com/macros/s/AKfycbxac2-DMlPOQX4JHVII-ayi5JZzaeVEbd0gl29QYLeAo5JPP8PMph6m8xwDliU1eVYYHA/exec";
     const form = document.getElementById("myForm");
 
-    // Helper for "Yes/No" logic with fade
-    const setupToggle = (selectId, textAreaId) => {
-      const select = document.getElementById(selectId);
-      const textarea = document.getElementById(textAreaId);
-      select.addEventListener("change", () => {
-        if (select.value === "Yes") textarea.classList.add("visible");
-        else textarea.classList.remove("visible");
-      });
-    };
+    function toggleLegend() {
+      const legend = document.getElementById("legend");
+      legend.style.display = legend.style.display === "block" ? "none" : "block";
+    }
 
-    setupToggle("frequent-formula", "frequent-formula-text");
-    setupToggle("par-pass-pp", "par-pass-semicolon");
-    setupToggle("rel-passages-select", "rel-passages");
-
-    // Unit activates interpolation
-    const unitField = document.getElementById("unit");
-    const interpol = document.getElementById("interpol");
-    unitField.addEventListener("input", () => {
-      if (unitField.value.trim()) interpol.classList.add("visible");
-      else interpol.classList.remove("visible");
+    // Show/hide conditional fields
+    document.getElementById("frequent-formula").addEventListener("change", e => {
+      document.getElementById("frequent-formula-text-container").style.display = e.target.value === "Yes" ? "block" : "none";
     });
 
-    // Form submission
+    document.getElementById("par-pass-pp").addEventListener("change", e => {
+      document.getElementById("par-pass-semicolon-container").style.display = e.target.value === "Yes" ? "block" : "none";
+    });
+
+    document.getElementById("rel-passages-select").addEventListener("change", e => {
+      document.getElementById("rel-passages-container").style.display = e.target.value === "Yes" ? "block" : "none";
+    });
+
+    document.getElementById("unit").addEventListener("input", e => {
+      document.getElementById("interpol-container").style.display = e.target.value.trim() ? "block" : "none";
+    });
+
     form.addEventListener("submit", e => {
       e.preventDefault();
-
-      const multiFields = ["interpol", "par-pass-semicolon", "rel-passages"];
-      multiFields.forEach(id => {
-        const el = document.getElementById(id);
-        if (el && el.value) {
-          const val = el.value.trim();
-          if (/[,;\n]/.test(val)) {
-            el.value = val.split(/[,;\n]+/).map(v => v.trim()).filter(v => v).join("; ");
-          }
-        }
-      });
-
       const formData = new FormData(form);
       fetch(scriptURL, { method: "POST", body: formData })
-        .then(res => res.text())
         .then(() => {
           alert("✅ Submitted successfully!");
           form.reset();
-          document.querySelectorAll("textarea").forEach(t => t.classList.remove("visible"));
+          document.getElementById("interpol-container").style.display = "none";
+          document.getElementById("frequent-formula-text-container").style.display = "none";
+          document.getElementById("par-pass-semicolon-container").style.display = "none";
+          document.getElementById("rel-passages-container").style.display = "none";
         })
         .catch(err => alert("❌ Error: " + err));
     });
