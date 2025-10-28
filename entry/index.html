@@ -22,7 +22,7 @@
       background: #fff;
       padding: 30px;
       border-radius: 16px;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.1);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 20px 30px;
@@ -42,7 +42,9 @@
       color: #333;
     }
 
-    input, select, textarea {
+    input,
+    select,
+    textarea {
       width: 100%;
       padding: 10px;
       border: 1px solid #ccc;
@@ -51,9 +53,11 @@
       transition: all 0.3s ease;
     }
 
-    input:focus, select:focus, textarea:focus {
+    input:focus,
+    select:focus,
+    textarea:focus {
       border-color: #2e7d32;
-      box-shadow: 0 0 6px rgba(46,125,50,0.4);
+      box-shadow: 0 0 6px rgba(46, 125, 50, 0.4);
       outline: none;
     }
 
@@ -81,48 +85,67 @@
       transform: translateY(-2px);
     }
 
-    /* Collapsible Legend Styles */
+    /* ===== Collapsible Legend Styles ===== */
+
     .legend-box {
       flex: 1 1 280px;
       background: #ffffff;
       border-radius: 16px;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
       overflow: hidden;
       height: fit-content;
+      transition: all 0.3s ease;
     }
 
     .legend-header {
-      background: #2e7d32;
+      background: linear-gradient(135deg, #2e7d32, #388e3c);
       color: white;
-      padding: 14px;
+      padding: 14px 16px;
       cursor: pointer;
       font-weight: bold;
       font-size: 16px;
+      user-select: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     .legend-content {
-      display: none;
-      padding: 16px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease, padding 0.4s ease;
+      background-color: #fafafa;
       font-size: 13px;
       color: #333;
-      max-height: 600px;
+      line-height: 1.6;
+      padding: 0 16px;
+    }
+
+    .legend-content.open {
+      padding: 16px;
+      max-height: 500px; /* Enables scrolling when expanded */
       overflow-y: auto;
-      line-height: 1.5;
     }
 
     .legend-content p {
-      margin: 0 0 8px;
+      margin: 0 0 10px;
     }
 
     .legend-content strong {
       color: #1b5e20;
     }
 
+    /* ===== Responsive Design ===== */
     @media (max-width: 900px) {
-      body { flex-direction: column; }
-      .legend-box { order: 2; }
+      body {
+        flex-direction: column;
+      }
+      .legend-box {
+        order: 2;
+      }
     }
   </style>
+
 </head>
 <body>
 
@@ -143,20 +166,27 @@
       </select>
     </div>
 
-    <div><label for="reference">Reference:</label><input type="text" id="reference" name="reference"></div>
-    <div><label for="link">Link to the Source:</label><input type="text" id="link" name="link"></div>
-    <div><label for="source">Source Name:</label><input type="text" id="source" name="source"></div>
+    <div><label for="antecedent">Antecedent:</label><input type="text" id="antecedent" name="antecedent"></div>
+    <div><label for="link">Reference; Link to Antecedent:</label><input type="text" id="link" name="link"></div>
+    <!-- <div><label for="source">Source Name:</label><input type="text" id="source" name="source"></div> -->
     <!-- <div><label for="rewr">Rewrite/Response:</label><input type="text" id="rewr" name="rewr"></div> -->
-    <div><label for="lang">Presumed Original Language:</label><input type="text" id="lang" name="lang"></div>
-    <div><label for="origin">Presumed Place of Origin:</label><input type="text" id="origin" name="origin"></div>
+    <div><label for="lang">Presumed Original Language:</label><input type="text" id="lang" name="lang" placeholder="e.g. {Language} ({Author}) - {Reference}; "></div>
+    <div><label for="origin">Presumed Place of Origin:</label><input type="text" id="origin" name="origin" placeholder="e.g. {Language} ({Author}) - {Reference};"></div>
     <div><label for="credit-text">Credit for Text:</label><input type="text" id="credit-text" name="credit-text"></div>
     <div><label for="credit-ms">Credit for MS Name:</label><input type="text" id="credit-ms" name="credit-ms"></div>
     <div><label for="ms-name">MS Name:</label><input type="text" id="ms-name" name="ms-name"></div>
     <div><label for="preserved-text">Preserved Text (.. to ..):</label><input type="text" id="preserved-text" name="preserved-text"></div>
-    <div><label for="language">Language:</label><input type="text" id="language" name="language"></div>
+    <div><label for="language">MS Language:</label><input type="text" id="language" name="language"></div>
     <div><label for="archive">Archive:</label><input type="text" id="archive" name="archive"></div>
     <div><label for="ref-ms">Reference to Manuscript:</label><input type="text" id="ref-ms" name="ref-ms"></div>
-    <div><label for="date-range">Date Range:</label><input type="text" id="date-range" name="date-range"></div>
+    <div>
+      <label for="date-range-antecedent">Date Range for Production of Antecedent:</label>
+      <input type="text" id="date-range-antecedent" name="date-range-antecedent">
+    </div>
+    <div>
+      <label for="date-range-ms">Date Range for Production of MS:</label>
+      <input type="text" id="date-range-ms" name="date-range-ms">
+    </div>
     <div><label for="ref-transcription">Reference to MS Transcription:</label><input type="text" id="ref-transcription" name="ref-transcription"></div>
     <div><label for="translator">Translator:</label><input type="text" id="translator" name="translator"></div>
     <div><label for="ref-translation">Reference to MS Translation:</label><input type="text" id="ref-translation" name="ref-translation"></div>
@@ -192,14 +222,11 @@
       <textarea id="par-pass-semicolon" name="par-pass-semicolon" placeholder="Separate multiple with ; if needed"></textarea>
     </div>
 
-    <div>
-      <label for="rel-passages-select">Related Passages:</label>
-      <select id="rel-passages-select" name="rel-passages-yesno">
-        <option value="">-- Select --</option>
-        <option value="Yes">Yes</option>
-        <option value="No">No</option>
-      </select>
-    </div>
+    <select id="rel-passages-select" name="rel-passages-select">
+      <option value="">-- Select --</option>
+      <option value="Yes">Yes</option>
+      <option value="No">No</option>
+    </select>
 
     <div id="rel-passages-container" style="display:none;">
       <label for="rel-passages">Related Passages:</label>
@@ -211,45 +238,63 @@
 
   <!-- Collapsible Legend -->
   <div class="legend-box">
-    <div class="legend-header" onclick="toggleLegend()">📘 Field Legend</div>
+    <div class="legend-header" onclick="toggleLegend()">
+      <span>📘 Field Legend</span>
+      <span id="legend-arrow" style="float:right; transition:transform 0.3s;">▼</span>
+    </div>
     <div class="legend-content" id="legend">
-      <p><strong>Surah:</strong> Chapter number in the Qur’an (1–114).</p>
-      <p><strong>Ayat:</strong> Verse(s) within the Surah (e.g., 1–5).</p>
-      <p><strong>Category:</strong> Biblical, Jewish, Christian, or Other.</p>
-      <p><strong>Reference:</strong> The specific text or source cited.</p>
-      <p><strong>Link:</strong> URL to the reference or source.</p>
-      <p><strong>Source:</strong> Title or origin of the text or manuscript.</p>
-      <!-- <p><strong>Rewrite/Response:</strong> Your rewritten version or interpretation.</p> -->
-      <p><strong>Presumed Original Language:</strong> Original writing language (e.g., Hebrew, Greek).</p>
-      <p><strong>Presumed Place of Origin:</strong> Geographic region where the text originated.</p>
-      <p><strong>Credit for Text:</strong> Acknowledgment of the author or provider of the text.</p>
-      <p><strong>Credit for MS Name:</strong> Name of person or institution credited for the manuscript.</p>
-      <p><strong>MS Name:</strong> The official manuscript name or catalog ID.</p>
-      <p><strong>Preserved Text:</strong> Portion of the text that is preserved (e.g., verses 10–15).</p>
-      <p><strong>Language:</strong> The current language of the text.</p>
-      <p><strong>Archive:</strong> Archive or library where the manuscript is held.</p>
-      <p><strong>Reference to MS:</strong> Citation or shelf ID of the manuscript.</p>
-      <p><strong>Date Range:</strong> Estimated period the text/manuscript was written.</p>
-      <p><strong>Reference to MS Transcription:</strong> Citation for transcribed versions.</p>
-      <p><strong>Translator:</strong> Person who translated the manuscript.</p>
-      <p><strong>Reference to MS Translation:</strong> Citation or link for the translation.</p>
-      <p><strong>Frequent Formula:</strong> Marks recurring formulaic phrases (e.g., “In the name of God…”).</p>
-      <p><strong>Frequent Formula Text:</strong> The phrase itself if “Yes” was selected.</p>
-      <p><strong>Unit:</strong> Textual range under discussion (e.g., verse 1–5).</p>
-      <p><strong>Interpolation:</strong> Later additions or insertions in text; separate with “;”.</p>
-      <p><strong>Parallel Passages:</strong> Identifies whether parallel texts exist within the Quran.</p>
-      <p><strong>Related Passages:</strong> Other related or thematically similar verses.</p>
+      <p><strong>Surah Number:</strong> The chapter number in the Qur’an (ranging from 1 to 114).</p>
+      <p><strong>Ayat:</strong> The verse or range of verses within the Surah (e.g., 1–5).</p>
+      <p><strong>Category:</strong> General classification of the antecedent source (e.g., Biblical, Jewish, Christian, or Other).</p>
+      <p><strong>Antecedent:</strong> The pre-Qur’anic or earlier textual source being referenced.</p>
+      <p><strong>Reference; Link to Antecedent:</strong> Bibliographic citation or URL linking to the antecedent text.</p>
+      
+      <p><strong>Presumed Original Language:</strong> The original language in which the antecedent text was composed (e.g., Hebrew, Aramaic, Greek, Syriac, etc.). Include author or source reference if known.</p>
+      <p><strong>Presumed Place of Origin:</strong> The geographical or cultural context where the antecedent text is believed to have originated.</p>
+      <p><strong>Credit for Text:</strong> Name of the individual or institution responsible for providing or transcribing the text.</p>
+      <p><strong>Credit for MS Name:</strong> Attribution for the manuscript’s identification or catalog entry.</p>
+      <p><strong>MS Name:</strong> The manuscript’s official title or catalog number.</p>
+      <p><strong>Preserved Text (... to ...):</strong> The specific portion of text that survives or is cited (e.g., verses 10–15).</p>
+      <p><strong>MS Language:</strong> The language in which the manuscript currently exists or is preserved.</p>
+      <p><strong>Archive:</strong> The archive, library, or institution that holds the manuscript.</p>
+      <p><strong>Reference to Manuscript:</strong> Catalog reference, shelf mark, or citation identifying the manuscript source.</p>
+      <p><strong>Date Range for Production of Antecedent:</strong> The estimated time period during which the antecedent text was composed.</p>
+      <p><strong>Date Range for Production of MS:</strong> The estimated period of the manuscript’s physical creation or copying.</p>
+      <p><strong>Reference to MS Transcription:</strong> Citation or link to a published or digital transcription of the manuscript.</p>
+      <p><strong>Translator:</strong> The name of the person responsible for translating the manuscript.</p>
+      <p><strong>Reference to MS Translation:</strong> Citation or link to the translated version of the manuscript.</p>
+      
+      <p><strong>Frequent Formula:</strong> Indicates whether the text includes a recurring phrase or formula (e.g., “In the name of God…”).</p>
+      <p><strong>Frequent Formula Text:</strong> The actual phrase identified as recurring, if “Yes” is selected above.</p>
+      <p><strong>Unit (... to ...):</strong> The textual segment under analysis (e.g., verse 1–5).</p>
+      <p><strong>Interpolation:</strong> Any later additions or insertions within the text; separate multiple entries with semicolons (;).</p>
+      <p><strong>Parallel Passages:</strong> Indicates whether parallel or similar passages exist elsewhere in the Qur’an.</p>
+      <p><strong>Parallel Passages (List):</strong> Lists the specific parallel verses or passages; separate with semicolons (;).</p>
+      <p><strong>Related Passages:</strong> Indicates whether there are related or thematically connected verses.</p>
+      <p><strong>Related Passages (List):</strong> Lists the related verses or thematic parallels; separate with semicolons (;).</p>
     </div>
   </div>
 
+
   <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbzd86ZQRMg3mE6kCKFCo3ApkpqJJqe4voTy5Zu30EpxKDTSFUXVLHaU7YpFAupaArES4A/exec";
+    const scriptURL = "https://script.google.com/macros/s/AKfycbwq8RWBHNF7rCRo9ikhR8vserlcZISe2LnhnMl4Djyq3fvR_ipu-4AtTLVfEISIGHM-/exec";
     const form = document.getElementById("myForm");
 
     function toggleLegend() {
       const legend = document.getElementById("legend");
-      legend.style.display = legend.style.display === "block" ? "none" : "block";
+      const arrow = document.getElementById("legend-arrow");
+
+      // Toggle the 'open' class for animation
+      legend.classList.toggle("open");
+
+      // Rotate the arrow when opened
+      if (legend.classList.contains("open")) {
+        arrow.style.transform = "rotate(180deg)";
+      } else {
+        arrow.style.transform = "rotate(0deg)";
+      }
     }
+
 
     // Show/hide conditional fields
     document.getElementById("frequent-formula").addEventListener("change", e => {
