@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Qur'an Reference Form (Revised)</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma;
+      margin: 0;
+      padding: 40px;
+      background: #f3f7f4;
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    form {
+      flex: 1 1 700px;
+      background: #fff;
+      padding: 30px;
+      border-radius: 14px;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px 25px;
+      max-width: 1000px;
+    }
+    h2 {
+      grid-column: 1 / -1;
+      text-align: center;
+      color: #2e7d32;
+      margin-bottom: 20px;
+    }
+    label {
+      font-weight: bold;
+      margin-bottom: 6px;
+      display: block;
+      color: #333;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 70px;
+    }
+    button {
+      grid-column: 1 / -1;
+      padding: 14px;
+      background: #2e7d32;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .legend-box {
+      flex: 1 1 280px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+      height: fit-content;
+    }
+    .legend-header {
+      background: #2e7d32;
+      color: #fff;
+      padding: 14px 16px;
+      cursor: pointer;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+    }
+    .legend-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+      padding: 0 16px;
+      font-size: 13px;
+    }
+    .legend-content.open {
+      padding: 16px;
+      max-height: 70vh; /* 70% of screen height */
+      overflow-y: auto;  /* scroll if needed */
+    }
+    .legend-box {
+      position: sticky;
+      top: 20px;      /* distance from top of screen */
+      align-self: flex-start;
+    }
+
+
+  </style>
+</head>
+<body>
+  <form id="form">
+    <h2>Qur'an Reference Form (Revised)</h2>
+
+    <div><label>Broad Topic:</label><input name="broad-topic"></div>
+    <div><label>Focus Point:</label><input name="focus-point"></div>
+
+    <div><label>Qur'anic Reference(s):</label><input name="quran-ref" placeholder="e.g., 28:12"></div>
+    <div><label>Qur'anic Unit:</label><input name="quran-unit" placeholder="e.g., 28:7-14"></div>
+
+    <div><label>Antecedent:</label><input name="antecedent" placeholder="e.g., b. Sotah 12b:19-20"></div>
+    <div><label>Antecedent Unit:</label><input name="antecedent-unit" placeholder="e.g., b. Sotah 12b:19-22"></div>
+
+    <div><label>Reference; Link to Antecedent:</label><input name="antecedent-link"></div>
+    <div><label>Alternative Title(s) or Tradition(s):</label><input name="altern-titles" placeholder="e.g., Apocalypse of Moses; Vitae Adae et Evae"></div>
+
+    <div>
+      <label>Broad Literary Category:</label>
+      <select name="broad-lit-cat">
+        <option value=""></option>
+        <option>Biblical</option>
+        <option>Extra-Biblical Jewish</option>
+        <option>Extra-Biblical Christian</option>
+        <option>Zoroastrian</option>
+        <option>Other</option>
+      </select>
+    </div>
+
+    <div>
+      <label>Literary Work or Genre:</label>
+      <select name="genre">
+        <option value=""></option>
+        <option>Alexander Romance</option>
+        <option>Apostolic Romances/Letters</option>
+        <option>Ascetic / Clerical / Monastic Lit.</option>
+        <option>Avesta</option>
+        <option>Biblical Apocrypha & Pseudepigrapha</option>
+        <option>Classical Historiography</option>
+        <option>Hagiography</option>
+        <option>Midrashim</option>
+        <option>Mishnah</option>
+        <option>New Testament</option>
+        <option>Patristic Literature</option>
+        <option>Piyyutim</option>
+        <option>Tanakh</option>
+        <option>Targumim</option>
+        <option>Talmud Bavli</option>
+        <option>Talmud Yerushalmi</option>
+        <option>Other</option>
+      </select>
+    </div>
+
+    <div><label>Occasion for (Intentional or Unintentional) Misinterpretation:</label><input name="misinterp" placeholder="e.g., Isaiah 28:9 (quoted)"></div>
+
+
+
+
+    <div>
+    <label>Embellishments:</label>
+        <select name="embellishments" multiple>
+            <option disabled>— Select one or several —</option>
+            <option value="anachronism(s)">anachronism(s)</option>
+            <option value="anthropomorphism">anthropomorphism</option>
+            <option value="epigram(s)">epigram(s)</option>
+            <option value="fables">fables</option>
+            <option value="foil character(s)">foil character(s)</option>
+            <option value="hyperbole">hyperbole</option>
+            <option value="mneumonic(s)">mneumonic(s)</option>
+            <option value="parable(s)">parable(s)</option>
+            <option value="prepositions">prepositions</option>
+            <option value="pun(s)">pun(s)</option>
+            <option value="satire">satire</option>
+            <option value="symbolism">symbolism</option>
+            <option value="taking figurative language literally">taking figurative language literally</option>
+        </select>
+    </div>
+
+
+
+    <div><label>Linguistic Distortion:</label><input name="ling-dist" placeholder="Inserting wrong vowels"></div>
+    <div><label>Eisegesis:</label><input name="eisegesis" placeholder="Quoting out of context"></div>
+
+    <div><label>Presumed Original Language:</label><input name="orig-lang" placeholder="e.g., Syriac (Duling, in: Charlesworth, OTP, 939)"></div>
+    <div><label>Presumed Place of Origin:</label><input name="place-origin"></div>
+
+    <div><label>Credit for Antecedent Reference:</label><input name="credit-ant" placeholder="e.g., Reynolds, The Qur’an and the Bible, 598"></div>
+    <div><label>Credit for MS Name:</label><input name="credit-ms" placeholder="e.g., Ben-Eliyahu, Handbook of Jewish Literature from late Antiquity, 83"></div>
+
+    <div><label>MS Name:</label><input name="ms-name" placeholder="e.g., London 340; MS Add. 27,169"></div>
+
+
+    <div><label>Archive:</label><input name="archive"></div>
+
+    <div><label>MS Language:</label><input name="ms-lang"></div>
+    <div><label>Preserved Text:</label><input name="preserved-text" placeholder="e.g., verses 10-15"></div>
+
+    <div><label>Reference to MS:</label><input name="ref-ms"></div>
+    <div><label>Reference to MS Transcription:</label><input name="ms-trans"></div>
+
+    <div><label>Date Range for Production of Antecedent:</label><input name="date-ant" placeholder="e.g., Charlesworth, Old Testament Pseudepigrapha, 940"></div>
+    <div><label>Date Range for Production of MS:</label><input name="date-ms"></div>
+
+    <div><label>Translator:</label><input name="translator" placeholder="e.g., Duling (eclectic)"></div>
+    <div><label>Reference to Translation:</label><input name="ref-translation" ></div>
+
+    <div><label>Parallel Passages:</label><select name="parallel"><option></option><option>Yes</option><option>No</option></select></div>
+    <div><label>Parallel Passages (List):</label><textarea name="parallel-list"></textarea></div>
+
+    <div><label>Related Passages:</label><select name="related"><option></option><option>Yes</option><option>No</option></select></div>
+    <div><label>Related Passages (List):</label><textarea name="related-list" placeholder="e.g., 19:51; 20:37"></textarea></div>
+
+    <div><label>Frequent Formula:</label><select name="freq-form"><option></option><option>Yes</option><option>No</option></select></div>
+    <div><label>Frequent Formula Text:</label><input name="freq-text" placeholder="e.g., In the name of God"></div>
+
+    <div><label>Interpolation:</label><input name="interpolation" placeholder="e.g., 23:6–8"></div>
+
+    <div><label>Earliest Antecedent:</label><select name="earliest"><option></option><option>Yes</option></select></div>
+
+    <div><label>Counter-tradition:</label><textarea name="counter"></textarea></div>
+    <div><label>Further Readings:</label><textarea name="readings"></textarea></div>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <div class="legend-box">
+    <div class="legend-header" onclick="toggleLegend()">Field Legend <span id="arrow">▼</span></div>
+    <div id="legend" class="legend-content">
+      <!-- Legend description text goes here -->
+      <p><strong>Broad Topic:</strong> Name main protagonist (e.g. Musa), event or place this passage relates to.</p>
+      <p><strong>Focus Point:</strong> Specific idea, concept or story under analysis (e.g., Refusal to Nurse).</p>
+      <p><strong>Qur'anic Reference(s):</strong> Qur’anic verse(s) related to the focus point.</p>
+      <p><strong>Qur'anic Unit:</strong> The textual segment in which the verse(s) under analysis are logically or semantically embedded.</p>
+      <p><strong>Antecedent:</strong> Any pre-Qur’anic text useful for arguing that the passage under analysis contains borrowed and/or developed material.</p>
+      <p><strong>Antecedent Unit:</strong> Textual segment that can be considered a comprehensive parallel text to the Qur’anic unit under analysis.</p>
+      <p><strong>Reference; Link to Antecedent:</strong> Bibliographic citation and/or URL linking to the antecedent text; separate multiple entries with semicolons (;).</p>
+      <p><strong>Alternative Titles:</strong> List all language traditions of the antecedent under analysis.</p>
+      <p><strong>Broad Literary Category:</strong> General classification of the antecedent.</p>
+      <p><strong>Occasion for (Intentional or Unintentional) Misinterpretation:</strong> Insert Biblical verse(s) with mode of reference (lifted, quoted, cited or alluded to within the antecedent); separate multiple entries with semicolons (;).</p>
+      <p><strong>Embellishments:</strong> Features within the Qur’anic antecedent that led to this developmental interpretation.</p>
+      <p><strong>Linguistic Distortion:</strong> Inserting wrong vowels.</p>
+      <p><strong>Eisegesis:</strong> Quoting out of context.</p>
+      <p><strong>Presumed Original Language:</strong> The original language in which the antecedent text was likely composed; include name of codicologist and/or short citation in brackets; separate multiple entries with semicolons (;)</p>
+      <p><strong>Presumed Place of Origin:</strong> The geographical or cultural context where the antecedent text is believed to have originated; include name of codicologist in round brackets after each date range; separate multiple entries with semicolons (;).</p>
+      <p><strong>Credit for Antecedent Reference:</strong> Cite individual(s) or institution(s) who have previously established or mentioned an intertextual relationship between the two sources under analysis</p>
+      <p><strong>Credit for MS Name:</strong> Attribution for the manuscript’s identification or catalog entry; separate multiple entries with semicolons (;)</p>
+      <p><strong>MS Name:</strong> The manuscript’s official title or catalog number; separate multiple entries with semicolons (;)</p>
+      <p><strong>Archive:</strong> The archive, library, or institution that holds the manuscript; separate multiple entries with semicolons (;).</p>
+      <p><strong>MS Language:</strong> The language(s) in which the manuscript is written; separate multiple entries with semicolons (;).</p>
+      <p><strong>Preserved Text:</strong> The specific portion of text that has survived; specify whether your given numbers relate to lines, sections or verses.</p>
+      <p><strong>Reference to MS:</strong> Catalog reference, shelf mark, or URL linking to scan.</p>
+      <p><strong>Reference to MS Transcription: </strong>Citation or link to a published or digital transcription of the manuscript.</p>
+      <p><strong>Date Range for Production of Antecedent:</strong> The estimated time period during which the antecedent text is thought to have been composed. Provide citations for further readings.</p>
+      <p><strong>Date Range for Production of MS:</strong> The time period during which the manuscript is thought to have been created.</p>
+      <p><strong>Translator:</strong> The name of the person responsible for translating the specific antecedent text we are working with; if this is an eclectic translation, add the word “eclectic” in brackets.</p>
+      <p><strong>Reference to Translation:</strong> Citation or link to the translated version of the antecedent.</p>
+      <p><strong>Parallel Passages:</strong>Indicate whether parallel or similar passages exist elsewhere in the Qur’an.</p>
+      <p><strong>Parallel Passages (List):</strong> List specific parallel verses or passages; separate with semicolons (;).</p>
+      <p><strong>Related Passages:</strong> Indicate whether there are thematically related verses elsewhere in the Qur’an.</p>   
+      <p><strong>Related Passages (List):</strong> List the related verses; separate with semicolons (;).</p>
+      <p><strong>Frequent Formula:</strong> Indicate whether the textual segment includes a recurring phrase or formula (e.g., “In the name of God …”).</p>
+      <p><strong>Frequent Formula Text:</strong> The actual phrase identified as recurring, if “Yes” is selected above.</p>
+      <p><strong>Interpolation:</strong> Any later additions or insertions within the text; separate with semicolons (;).</p>
+      <p><strong>Earliest Antecedent:</strong> Indicates that a particular antecedent is the earliest source of this particular trend or tradition.</p>
+      <p><strong>Counter-tradition:</strong> Evidence of interpretation of Scripture or another source unlike or contradictory to the interpretation that developed into the Qur’an, including polemic traditions (i.e. a text or interpretation that deliberately contradicts or critiques another tradition); separate multiple entries with semicolons (;).</p>
+      <p><strong>Further Readings:</strong> Short reference to any book or article that could be helpful in understanding the passage or topic under analysis; separate multiple entries with semicolons (;).</p>
+    </div>
+  </div>
+
+<script>
+function toggleLegend(){
+  const L = document.getElementById('legend');
+  const A = document.getElementById('arrow');
+  L.classList.toggle('open');
+  A.style.transform = L.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+}
+</script>
+</body>
+</html>
