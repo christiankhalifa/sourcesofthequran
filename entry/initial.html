@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quran Reference Form</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 40px;
+      background: linear-gradient(135deg, #e0f7fa, #f1f8e9);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    form {
+      flex: 1 1 600px;
+      max-width: 900px;
+      background: #fff;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px 30px;
+    }
+
+    h2 {
+      grid-column: 1 / -1;
+      text-align: center;
+      margin-bottom: 20px;
+      color: #2e7d32;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #2e7d32;
+      box-shadow: 0 0 6px rgba(46, 125, 50, 0.4);
+      outline: none;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    button {
+      grid-column: 1 / -1;
+      margin-top: 15px;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      background: linear-gradient(135deg, #4caf50, #2e7d32);
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s;
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, #43a047, #1b5e20);
+      transform: translateY(-2px);
+    }
+
+    /* ===== Collapsible Legend Styles ===== */
+
+    .legend-box {
+      flex: 1 1 280px;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      height: fit-content;
+      transition: all 0.3s ease;
+    }
+
+    .legend-header {
+      background: linear-gradient(135deg, #2e7d32, #388e3c);
+      color: white;
+      padding: 14px 16px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 16px;
+      user-select: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .legend-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease, padding 0.4s ease;
+      background-color: #fafafa;
+      font-size: 13px;
+      color: #333;
+      line-height: 1.6;
+      padding: 0 16px;
+    }
+
+    .legend-content.open {
+      padding: 16px;
+      max-height: 500px; /* Enables scrolling when expanded */
+      overflow-y: auto;
+    }
+
+    .legend-content p {
+      margin: 0 0 10px;
+    }
+
+    .legend-content strong {
+      color: #1b5e20;
+    }
+
+    /* ===== Responsive Design ===== */
+    @media (max-width: 900px) {
+      body {
+        flex-direction: column;
+      }
+      .legend-box {
+        order: 2;
+      }
+    }
+  </style>
+
+</head>
+<body>
+
+  <form id="myForm">
+    <h2>Quran Reference Form</h2>
+
+    <div><label for="surah">Surah Number:</label><input type="number" id="surah" name="surah" min="1" max="114" required></div>
+    <div><label for="ayat">Ayat:</label><input type="text" id="ayat" name="ayat" placeholder="e.g., 1-5"></div>
+
+    <div>
+      <label for="category">Category:</label>
+      <select id="category" name="category">
+        <option value="">-- Select Category --</option>
+        <option value="Biblical">Biblical</option>
+        <option value="Jewish">Jewish</option>
+        <option value="Christian">Christian</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+
+    <div><label for="antecedent">Antecedent:</label><input type="text" id="antecedent" name="antecedent"></div>
+    <div><label for="link">Reference; Link to Antecedent:</label><input type="text" id="link" name="link"></div>
+    <!-- <div><label for="source">Source Name:</label><input type="text" id="source" name="source"></div> -->
+    <!-- <div><label for="rewr">Rewrite/Response:</label><input type="text" id="rewr" name="rewr"></div> -->
+    <div><label for="lang">Presumed Original Language:</label><input type="text" id="lang" name="lang" placeholder="e.g. {Language} ({Author}) - {Reference}; "></div>
+    <div><label for="origin">Presumed Place of Origin:</label><input type="text" id="origin" name="origin" placeholder="e.g. {Language} ({Author}) - {Reference};"></div>
+    <div><label for="credit-text">Credit for Text:</label><input type="text" id="credit-text" name="credit-text"></div>
+    <div><label for="credit-ms">Credit for MS Name:</label><input type="text" id="credit-ms" name="credit-ms"></div>
+    <div><label for="ms-name">MS Name:</label><input type="text" id="ms-name" name="ms-name"></div>
+    <div><label for="preserved-text">Preserved Text (.. to ..):</label><input type="text" id="preserved-text" name="preserved-text"></div>
+    <div><label for="language">MS Language:</label><input type="text" id="language" name="language"></div>
+    <div><label for="archive">Archive:</label><input type="text" id="archive" name="archive"></div>
+    <div><label for="ref-ms">Reference to Manuscript:</label><input type="text" id="ref-ms" name="ref-ms"></div>
+    <div>
+      <label for="date-range-antecedent">Date Range for Production of Antecedent:</label>
+      <input type="text" id="date-range-antecedent" name="date-range-antecedent">
+    </div>
+    <div>
+      <label for="date-range-ms">Date Range for Production of MS:</label>
+      <input type="text" id="date-range-ms" name="date-range-ms">
+    </div>
+    <div><label for="ref-transcription">Reference to MS Transcription:</label><input type="text" id="ref-transcription" name="ref-transcription"></div>
+    <div><label for="translator">Translator:</label><input type="text" id="translator" name="translator"></div>
+    <div><label for="ref-translation">Reference to MS Translation:</label><input type="text" id="ref-translation" name="ref-translation"></div>
+
+    <div>
+      <label for="frequent-formula">Frequent Formula:</label>
+      <select id="frequent-formula" name="frequent-formula">
+        <option value="">-- Select --</option>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+      </select>
+    </div>
+
+    <div id="frequent-formula-text-container" style="display:none;">
+      <label for="frequent-formula-text">Frequent Formula Text:</label>
+      <input type="text" id="frequent-formula-text" name="frequent-formula-details" placeholder="Enter the repeated phrase">
+    </div>
+
+    <div><label for="unit">Unit (... to …):</label><input type="text" id="unit" name="unit" placeholder="e.g., verse 1 to verse 5"></div>
+    <div id="interpol-container" style="display:none;"><label for="interpol">Interpolation:</label><textarea id="interpol" name="interpol" placeholder="Separate multiple with ; if needed"></textarea></div>
+
+    <div>
+      <label for="par-pass-pp">Parallel Passages:</label>
+      <select id="par-pass-pp" name="par-pass-pp">
+        <option value="">-- Select --</option>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+      </select>
+    </div>
+
+    <div id="par-pass-semicolon-container" style="display:none;">
+      <label for="par-pass-semicolon">Parallel Passages:</label>
+      <textarea id="par-pass-semicolon" name="par-pass-semicolon" placeholder="Separate multiple with ; if needed"></textarea>
+    </div>
+
+    <select id="rel-passages-select" name="rel-passages-select">
+      <option value="">-- Select --</option>
+      <option value="Yes">Yes</option>
+      <option value="No">No</option>
+    </select>
+
+    <div id="rel-passages-container" style="display:none;">
+      <label for="rel-passages">Related Passages:</label>
+      <textarea id="rel-passages" name="rel-passages" placeholder="Separate multiple with ; if needed"></textarea>
+    </div>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <!-- Collapsible Legend -->
+  <div class="legend-box">
+    <div class="legend-header" onclick="toggleLegend()">
+      <span>📘 Field Legend</span>
+      <span id="legend-arrow" style="float:right; transition:transform 0.3s;">▼</span>
+    </div>
+    <div class="legend-content" id="legend">
+      <p><strong>Broad Topic: </strong>Name main protagonist (e.g. Musa), event or place this passage relates to.</p>
+      <p><strong>Focus Point: </strong>Specific idea, concept or story under analysis (e.g., Refusal to Nurse).</p>
+      <p><strong>Qur’anic Reference(s): </strong>Qur’anic verse(s) related to the focus point</p>
+      <p><strong>Category:</strong> General classification of the antecedent source (e.g., Biblical, Jewish, Christian, or Other).</p>
+      <p><strong>Antecedent:</strong> The pre-Qur’anic or earlier textual source being referenced.</p>
+      <p><strong>Reference; Link to Antecedent:</strong> Bibliographic citation or URL linking to the antecedent text.</p>
+      
+      <p><strong>Presumed Original Language:</strong> The original language in which the antecedent text was composed (e.g., Hebrew, Aramaic, Greek, Syriac, etc.). Include author or source reference if known.</p>
+      <p><strong>Presumed Place of Origin:</strong> The geographical or cultural context where the antecedent text is believed to have originated.</p>
+      <p><strong>Credit for Text:</strong> Name of the individual or institution responsible for providing or transcribing the text.</p>
+      <p><strong>Credit for MS Name:</strong> Attribution for the manuscript’s identification or catalog entry.</p>
+      <p><strong>MS Name:</strong> The manuscript’s official title or catalog number.</p>
+      <p><strong>Preserved Text (... to ...):</strong> The specific portion of text that survives or is cited (e.g., verses 10–15).</p>
+      <p><strong>MS Language:</strong> The language in which the manuscript currently exists or is preserved.</p>
+      <p><strong>Archive:</strong> The archive, library, or institution that holds the manuscript.</p>
+      <p><strong>Reference to Manuscript:</strong> Catalog reference, shelf mark, or citation identifying the manuscript source.</p>
+      <p><strong>Date Range for Production of Antecedent:</strong> The estimated time period during which the antecedent text was composed.</p>
+      <p><strong>Date Range for Production of MS:</strong> The estimated period of the manuscript’s physical creation or copying.</p>
+      <p><strong>Reference to MS Transcription:</strong> Citation or link to a published or digital transcription of the manuscript.</p>
+      <p><strong>Translator:</strong> The name of the person responsible for translating the manuscript.</p>
+      <p><strong>Reference to MS Translation:</strong> Citation or link to the translated version of the manuscript.</p>
+      
+      <p><strong>Frequent Formula:</strong> Indicates whether the text includes a recurring phrase or formula (e.g., “In the name of God…”).</p>
+      <p><strong>Frequent Formula Text:</strong> The actual phrase identified as recurring, if “Yes” is selected above.</p>
+      <p><strong>Unit (... to ...):</strong> The textual segment under analysis (e.g., verse 1–5).</p>
+      <p><strong>Interpolation:</strong> Any later additions or insertions within the text; separate multiple entries with semicolons (;).</p>
+      <p><strong>Parallel Passages:</strong> Indicates whether parallel or similar passages exist elsewhere in the Qur’an.</p>
+      <p><strong>Parallel Passages (List):</strong> Lists the specific parallel verses or passages; separate with semicolons (;).</p>
+      <p><strong>Related Passages:</strong> Indicates whether there are related or thematically connected verses.</p>
+      <p><strong>Related Passages (List):</strong> Lists the related verses or thematic parallels; separate with semicolons (;).</p>
+    </div>
+  </div>
+
+
+  <script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbwq8RWBHNF7rCRo9ikhR8vserlcZISe2LnhnMl4Djyq3fvR_ipu-4AtTLVfEISIGHM-/exec";
+    const form = document.getElementById("myForm");
+
+    function toggleLegend() {
+      const legend = document.getElementById("legend");
+      const arrow = document.getElementById("legend-arrow");
+
+      // Toggle the 'open' class for animation
+      legend.classList.toggle("open");
+
+      // Rotate the arrow when opened
+      if (legend.classList.contains("open")) {
+        arrow.style.transform = "rotate(180deg)";
+      } else {
+        arrow.style.transform = "rotate(0deg)";
+      }
+    }
+
+
+    // Show/hide conditional fields
+    document.getElementById("frequent-formula").addEventListener("change", e => {
+      document.getElementById("frequent-formula-text-container").style.display = e.target.value === "Yes" ? "block" : "none";
+    });
+
+    document.getElementById("par-pass-pp").addEventListener("change", e => {
+      document.getElementById("par-pass-semicolon-container").style.display = e.target.value === "Yes" ? "block" : "none";
+    });
+
+    document.getElementById("rel-passages-select").addEventListener("change", e => {
+      document.getElementById("rel-passages-container").style.display = e.target.value === "Yes" ? "block" : "none";
+    });
+
+    document.getElementById("unit").addEventListener("input", e => {
+      document.getElementById("interpol-container").style.display = e.target.value.trim() ? "block" : "none";
+    });
+
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      fetch(scriptURL, { method: "POST", body: formData })
+        .then(() => {
+          alert("✅ Submitted successfully!");
+          form.reset();
+          document.getElementById("interpol-container").style.display = "none";
+          document.getElementById("frequent-formula-text-container").style.display = "none";
+          document.getElementById("par-pass-semicolon-container").style.display = "none";
+          document.getElementById("rel-passages-container").style.display = "none";
+        })
+        .catch(err => alert("❌ Error: " + err));
+    });
+  </script>
+</body>
+</html>
