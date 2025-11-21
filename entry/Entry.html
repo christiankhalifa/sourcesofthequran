@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Qur'an Reference Form (Password Protected, Full)</title>
+  <style>
+    :root{
+      --brand:#2e7d32;
+      --bg:#f3f7f4;
+      --card:#ffffff;
+      --muted:#666;
+      --radius:12px;
+    }
+    html,body{height:100%;margin:0;}
+    body {
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      background: var(--bg);
+      padding: 32px;
+      display:flex;
+      gap:20px;
+      justify-content:center;
+      flex-wrap:wrap;
+      box-sizing:border-box;
+    }
+
+    /* Lock screen */
+    #lock-screen{
+      position:fixed;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background: rgba(0,0,0,0.45);
+      z-index:9999;
+    }
+    #lock-card{
+      background:white;
+      padding:28px;
+      border-radius:14px;
+      width:320px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.2);
+      text-align:center;
+    }
+    #lock-card h2{margin:0 0 12px;color:var(--brand)}
+    #page-password{width:100%;padding:10px;border-radius:8px;border:1px solid #ccc;box-sizing:border-box}
+    #lock-card button{margin-top:12px;background:var(--brand);color:#fff;border:none;padding:10px 16px;border-radius:8px;cursor:pointer}
+    #error-msg{color:#d32f2f;margin-top:8px;display:none}
+
+    /* Main layout */
+    #main-content{
+      display:flex;
+      gap:20px;
+      width:100%;
+      max-width:1200px;
+      box-sizing:border-box;
+    }
+
+    form {
+      flex:1 1 700px;
+      background:var(--card);
+      padding:30px;
+      border-radius:14px;
+      box-shadow:0 6px 14px rgba(0,0,0,0.08);
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:20px 25px;
+      align-items:start;
+      box-sizing:border-box;
+    }
+
+    h2.form-title{
+      grid-column:1 / -1;
+      margin:0 0 18px;
+      text-align:center;
+      color:var(--brand);
+    }
+
+    label{display:block;font-weight:600;margin-bottom:6px;color:#222;font-size:14px}
+    input[type="text"], input[type="password"], select, textarea {
+      width:100%;
+      padding:10px;
+      border-radius:8px;
+      border:1px solid #d0d7d4;
+      box-sizing:border-box;
+      font-size:14px;
+    }
+    textarea{min-height:70px;resize:vertical}
+    button[type="submit"]{
+      grid-column:1 / -1;
+      padding:14px;
+      background:var(--brand);
+      color:white;
+      border:none;
+      border-radius:10px;
+      font-size:16px;
+      cursor:pointer;
+    }
+
+    /* Legend box */
+    .legend-box{
+      flex:1 1 320px;
+      background:var(--card);
+      border-radius:16px;
+      box-shadow:0 6px 12px rgba(0,0,0,0.08);
+      height:fit-content;
+      position:sticky;
+      top:20px;
+      align-self:flex-start;
+      overflow:hidden;
+    }
+    .legend-header{
+      background:var(--brand);
+      color:#fff;
+      padding:14px 16px;
+      cursor:pointer;
+      font-weight:700;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+    .legend-content{
+      max-height:0;
+      overflow:hidden;
+      transition:max-height .4s ease;
+      padding:0 16px;
+      font-size:13px;
+      color:#222;
+    }
+    .legend-content.open{padding:16px; max-height:70vh; overflow:auto}
+
+    /* helper hidden */
+    .hidden{display:none !important}
+
+    /* small screens */
+    @media (max-width:880px){
+      form{grid-template-columns:1fr}
+      #main-content{flex-direction:column;padding-bottom:60px}
+      .legend-box{position:relative;top:auto}
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOCK SCREEN -->
+<div id="lock-screen" aria-hidden="false">
+  <div id="lock-card" role="dialog" aria-labelledby="lock-title">
+    <h2 id="lock-title">Enter Password</h2>
+    <input id="page-password" type="password" placeholder="Password" aria-label="Password">
+    <div style="display:flex;gap:8px;justify-content:center">
+      <button id="unlock-btn" type="button" onclick="unlockPage()">Enter</button>
+    </div>
+    <p id="error-msg">Incorrect password</p>
+    <p style="margin-top:10px;font-size:12px;color:#666">This is a client-side gate (not secure for sensitive data).</p>
+  </div>
+</div>
+
+<!-- MAIN CONTENT (hidden until unlocked) -->
+<div id="main-content" style="display:none;">
+
+  <!-- The big form -->
+  <form id="form">
+    <h2 class="form-title">Qur'an Reference Form (Revised)</h2>
+
+    <div>
+      <label for="broad-topic">Broad Topic:</label>
+      <input id="broad-topic" name="broad-topic" type="text">
+    </div>
+
+    <div>
+      <label for="focus-point">Focus Point:</label>
+      <input id="focus-point" name="focus-point" type="text">
+    </div>
+
+    <div>
+      <label for="quran-ref">Qur'anic Reference(s):</label>
+      <input id="quran-ref" name="quran-ref" type="text" placeholder="e.g., 28:12">
+    </div>
+
+    <div>
+      <label for="quran-unit">Qur'anic Unit:</label>
+      <input id="quran-unit" name="quran-unit" type="text" placeholder="e.g., 28:7-14">
+    </div>
+
+    <div>
+      <label for="antecedent">Antecedent:</label>
+      <input id="antecedent" name="antecedent" type="text" placeholder="e.g., b. Sotah 12b:19-20">
+    </div>
+
+    <div>
+      <label for="antecedent-unit">Antecedent Unit:</label>
+      <input id="antecedent-unit" name="antecedent-unit" type="text" placeholder="e.g., b. Sotah 12b:19-22">
+    </div>
+
+    <div>
+      <label for="antecedent-link">Reference; Link to Antecedent:</label>
+      <input id="antecedent-link" name="antecedent-link" type="text">
+    </div>
+
+    <div>
+      <label for="altern-titles">Alternative Title(s) or Tradition(s):</label>
+      <input id="altern-titles" name="altern-titles" type="text" placeholder="e.g., Apocalypse of Moses; Vitae Adae et Evae">
+    </div>
+
+    <div>
+      <label for="broad-lit-cat">Broad Literary Category:</label>
+      <select id="broad-lit-cat" name="broad-lit-cat">
+        <option value=""></option>
+        <option>Biblical</option>
+        <option>Extra-Biblical Jewish</option>
+        <option>Extra-Biblical Christian</option>
+        <option>Zoroastrian</option>
+        <option>Other</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="genre">Literary Work or Genre:</label>
+      <select id="genre" name="genre">
+        <option value=""></option>
+        <option>Alexander Romance</option>
+        <option>Apostolic Romances/Letters</option>
+        <option>Ascetic / Clerical / Monastic Lit.</option>
+        <option>Avesta</option>
+        <option>Biblical Apocrypha & Pseudepigrapha</option>
+        <option>Classical Historiography</option>
+        <option>Hagiography</option>
+        <option>Midrashim</option>
+        <option>Mishnah</option>
+        <option>New Testament</option>
+        <option>Patristic Literature</option>
+        <option>Piyyutim</option>
+        <option>Tanakh</option>
+        <option>Targumim</option>
+        <option>Talmud Bavli</option>
+        <option>Talmud Yerushalmi</option>
+        <option>Other</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="misinterp">Occasion for (Intentional or Unintentional) Misinterpretation:</label>
+      <input id="misinterp" name="misinterp" type="text" placeholder="e.g., Isaiah 28:9 (quoted)">
+    </div>
+
+    <div>
+      <label for="embellishments">Embellishments:</label>
+      <select id="embellishments" name="embellishments" multiple>
+        <option disabled>— Select one or several —</option>
+        <option value="anachronism(s)">anachronism(s)</option>
+        <option value="anthropomorphism">anthropomorphism</option>
+        <option value="epigram(s)">epigram(s)</option>
+        <option value="fables">fables</option>
+        <option value="foil character(s)">foil character(s)</option>
+        <option value="hyperbole">hyperbole</option>
+        <option value="mneumonic(s)">mneumonic(s)</option>
+        <option value="parable(s)">parable(s)</option>
+        <option value="prepositions">prepositions</option>
+        <option value="pun(s)">pun(s)</option>
+        <option value="satire">satire</option>
+        <option value="symbolism">symbolism</option>
+        <option value="taking figurative language literally">taking figurative language literally</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="ling-dist">Linguistic Distortion:</label>
+      <input id="ling-dist" name="ling-dist" type="text">
+    </div>
+
+    <div>
+      <label for="eisegesis">Eisegesis:</label>
+      <input id="eisegesis" name="eisegesis" type="text">
+    </div>
+
+    <div>
+      <label for="orig-lang">Presumed Original Language:</label>
+      <input id="orig-lang" name="orig-lang" type="text" placeholder="e.g., Syriac (Duling, in: Charlesworth, OTP, 939)">
+    </div>
+
+    <div>
+      <label for="place-origin">Presumed Place of Origin:</label>
+      <input id="place-origin" name="place-origin" type="text">
+    </div>
+
+    <div>
+      <label for="credit-ant">Credit for Antecedent Reference:</label>
+      <input id="credit-ant" name="credit-ant" type="text" placeholder="e.g., Reynolds, The Qur’an and the Bible, 598">
+    </div>
+
+    <div>
+      <label for="credit-ms">Credit for MS Name:</label>
+      <input id="credit-ms" name="credit-ms" type="text" placeholder="e.g., Ben-Eliyahu, Handbook of Jewish Literature from late Antiquity, 83">
+    </div>
+
+    <div>
+      <label for="ms-name">MS Name:</label>
+      <input id="ms-name" name="ms-name" type="text" placeholder="e.g., London 340; MS Add. 27,169">
+    </div>
+
+    <div>
+      <label for="archive">Archive:</label>
+      <input id="archive" name="archive" type="text">
+    </div>
+
+    <div>
+      <label for="ms-lang">MS Language:</label>
+      <input id="ms-lang" name="ms-lang" type="text">
+    </div>
+
+    <div>
+      <label for="preserved-text">Preserved Text:</label>
+      <input id="preserved-text" name="preserved-text" type="text" placeholder="e.g., verses 10-15">
+    </div>
+
+    <div>
+      <label for="ref-ms">Reference to MS:</label>
+      <input id="ref-ms" name="ref-ms" type="text">
+    </div>
+
+    <div>
+      <label for="ms-trans">Reference to MS Transcription:</label>
+      <input id="ms-trans" name="ms-trans" type="text">
+    </div>
+
+    <div>
+      <label for="date-ant">Date Range for Production of Antecedent:</label>
+      <input id="date-ant" name="date-ant" type="text" placeholder="e.g., Charlesworth, Old Testament Pseudepigrapha, 940">
+    </div>
+
+    <div>
+      <label for="date-ms">Date Range for Production of MS:</label>
+      <input id="date-ms" name="date-ms" type="text">
+    </div>
+
+    <div>
+      <label for="translator">Translator:</label>
+      <input id="translator" name="translator" type="text" placeholder="e.g., Duling (eclectic)">
+    </div>
+
+    <div>
+      <label for="ref-translation">Reference to Translation:</label>
+      <input id="ref-translation" name="ref-translation" type="text">
+    </div>
+
+    <div>
+      <label for="parallel">Parallel Passages:</label>
+      <select id="parallel-select" name="parallel">
+        <option value=""></option>
+        <option>Yes</option>
+        <option>No</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="parallel-list">Parallel Passages (List):</label>
+      <textarea id="parallel-list" name="parallel-list" class="hidden" placeholder="List parallel verses separated by semicolons"></textarea>
+    </div>
+
+    <div>
+      <label for="related">Related Passages:</label>
+      <select id="related-select" name="related">
+        <option value=""></option>
+        <option>Yes</option>
+        <option>No</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="related-list">Related Passages (List):</label>
+      <textarea id="related-list" name="related-list" class="hidden" placeholder="e.g., 19:51; 20:37"></textarea>
+    </div>
+
+    <div>
+      <label for="freq-form">Frequent Formula:</label>
+      <select id="freq-select" name="freq-form">
+        <option value=""></option>
+        <option>Yes</option>
+        <option>No</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="freq-text">Frequent Formula Text:</label>
+      <input id="freq-text" name="freq-text" type="text" class="hidden" placeholder="e.g., In the name of God">
+    </div>
+
+    <div>
+      <label for="interpolation">Interpolation:</label>
+      <input id="interpolation" name="interpolation" type="text" placeholder="e.g., 23:6–8">
+    </div>
+
+    <div>
+      <label for="earliest">Earliest Antecedent:</label>
+      <select id="earliest" name="earliest">
+        <option value=""></option>
+        <option>Yes</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="counter">Counter-tradition:</label>
+      <textarea id="counter" name="counter"></textarea>
+    </div>
+
+    <div>
+      <label for="readings">Further Readings:</label>
+      <textarea id="readings" name="readings" placeholder="Separate multiple entries with semicolons (;)"></textarea>
+    </div>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <!-- Legend box -->
+  <div class="legend-box" aria-hidden="false">
+    <div class="legend-header" onclick="toggleLegend()">Field Legend <span id="arrow">▼</span></div>
+    <div id="legend" class="legend-content">
+      <p><strong>Broad Topic:</strong> Name main protagonist (e.g. Musa), event or place this passage relates to.</p>
+      <p><strong>Focus Point:</strong> Specific idea, concept or story under analysis (e.g., Refusal to Nurse).</p>
+      <p><strong>Qur'anic Reference(s):</strong> Qur’anic verse(s) related to the focus point.</p>
+      <p><strong>Qur'anic Unit:</strong> The textual segment in which the verse(s) under analysis are logically or semantically embedded.</p>
+      <p><strong>Antecedent:</strong> Any pre-Qur’anic text useful for arguing that the passage under analysis contains borrowed and/or developed material.</p>
+      <p><strong>Antecedent Unit:</strong> Textual segment that can be considered a comprehensive parallel text to the Qur’anic unit under analysis.</p>
+      <p><strong>Reference; Link to Antecedent:</strong> Bibliographic citation and/or URL linking to the antecedent text; separate multiple entries with semicolons (;).</p>
+      <p><strong>Alternative Titles:</strong> List all language traditions of the antecedent under analysis.</p>
+      <p><strong>Broad Literary Category:</strong> General classification of the antecedent.</p>
+      <p><strong>Occasion for (Intentional or Unintentional) Misinterpretation:</strong> Insert Biblical verse(s) with mode of reference (lifted, quoted, cited or alluded to within the antecedent); separate multiple entries with semicolons (;).</p>
+      <p><strong>Embellishments:</strong> Features within the Qur’anic antecedent that led to this developmental interpretation.</p>
+      <p><strong>Linguistic Distortion:</strong> Inserting wrong vowels.</p>
+      <p><strong>Eisegesis:</strong> Quoting out of context.</p>
+      <p><strong>Presumed Original Language:</strong> The original language in which the antecedent text was likely composed; include name of codicologist and/or short citation in brackets; separate multiple entries with semicolons (;)</p>
+      <p><strong>Presumed Place of Origin:</strong> The geographical or cultural context where the antecedent text is believed to have originated; include name of codicologist in round brackets after each date range; separate multiple entries with semicolons (;).</p>
+      <p><strong>Credit for Antecedent Reference:</strong> Cite individual(s) or institution(s) who have previously established or mentioned an intertextual relationship between the two sources under analysis</p>
+      <p><strong>Credit for MS Name:</strong> Attribution for the manuscript’s identification or catalog entry; separate multiple entries with semicolons (;)</p>
+      <p><strong>MS Name:</strong> The manuscript’s official title or catalog number; separate multiple entries with semicolons (;)</p>
+      <p><strong>Archive:</strong> The archive, library, or institution that holds the manuscript; separate multiple entries with semicolons (;).</p>
+      <p><strong>MS Language:</strong> The language(s) in which the manuscript is written; separate multiple entries with semicolons (;).</p>
+      <p><strong>Preserved Text:</strong> The specific portion of text that has survived; specify whether your given numbers relate to lines, sections or verses.</p>
+      <p><strong>Reference to MS:</strong> Catalog reference, shelf mark, or URL linking to scan.</p>
+      <p><strong>Reference to MS Transcription: </strong>Citation or link to a published or digital transcription of the manuscript.</p>
+      <p><strong>Date Range for Production of Antecedent:</strong> The estimated time period during which the antecedent text is thought to have been composed. Provide citations for further readings.</p>
+      <p><strong>Date Range for Production of MS:</strong> The time period during which the manuscript is thought to have been created.</p>
+      <p><strong>Translator:</strong> The name of the person responsible for translating the specific antecedent text we are working with; if this is an eclectic translation, add the word “eclectic” in brackets.</p>
+      <p><strong>Reference to Translation:</strong> Citation or link to the translated version of the antecedent.</p>
+      <p><strong>Parallel Passages:</strong>Indicate whether parallel or similar passages exist elsewhere in the Qur’an.</p>
+      <p><strong>Parallel Passages (List):</strong> List specific parallel verses or passages; separate with semicolons (;).</p>
+      <p><strong>Related Passages:</strong> Indicate whether there are thematically related verses elsewhere in the Qur’an.</p>   
+      <p><strong>Related Passages (List):</strong> List the related verses; separate with semicolons (;).</p>
+      <p><strong>Frequent Formula:</strong> Indicate whether the textual segment includes a recurring phrase or formula (e.g., “In the name of God …”).</p>
+      <p><strong>Frequent Formula Text:</strong> The actual phrase identified as recurring, if “Yes” is selected above.</p>
+      <p><strong>Interpolation:</strong> Any later additions or insertions within the text; separate with semicolons (;).</p>
+      <p><strong>Earliest Antecedent:</strong> Indicates that a particular antecedent is the earliest source of this particular trend or tradition.</p>
+      <p><strong>Counter-tradition:</strong> Evidence of interpretation of Scripture or another source unlike or contradictory to the interpretation that developed into the Qur’an, including polemic traditions (i.e. a text or interpretation that deliberately contradicts or critiques another tradition); separate multiple entries with semicolons (;).</p>
+      <p><strong>Further Readings:</strong> Short reference to any book or article that could be helpful in understanding the passage or topic under analysis; separate multiple entries with semicolons (;).</p>
+    </div>
+  </div>
+
+</div> <!-- end main-content -->
+
+<script>
+  // ======= CONFIGURE PASSWORD HERE =======
+  // Change the string below to set your password.
+  // Reminder: this is client-side and not secure for sensitive data.
+  const CORRECT_PASSWORD = "1234";
+
+  function unlockPage() {
+    const input = document.getElementById("page-password").value;
+    const err = document.getElementById("error-msg");
+    if (input === CORRECT_PASSWORD) {
+      document.getElementById("lock-screen").style.display = "none";
+      document.getElementById("main-content").style.display = "flex";
+      err.style.display = "none";
+    } else {
+      err.style.display = "block";
+      // small shake animation (visual feedback)
+      const card = document.getElementById("lock-card");
+      card.animate([
+        { transform: 'translateX(0px)' },
+        { transform: 'translateX(-8px)' },
+        { transform: 'translateX(8px)' },
+        { transform: 'translateX(0px)' }
+      ], { duration: 240, easing: 'ease' });
+    }
+  }
+
+  // Legend toggle
+  function toggleLegend(){
+    const L = document.getElementById('legend');
+    const A = document.getElementById('arrow');
+    L.classList.toggle('open');
+    A.style.transform = L.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+  }
+
+  // Conditional field logic
+  document.addEventListener('DOMContentLoaded', function(){
+    const parallelSelect = document.getElementById("parallel-select");
+    const parallelList = document.getElementById("parallel-list");
+    const relatedSelect = document.getElementById("related-select");
+    const relatedList = document.getElementById("related-list");
+    const freqSelect = document.getElementById("freq-select");
+    const freqText = document.getElementById("freq-text");
+
+    // ensure initial state (in case of page reload)
+    function updateVisibility() {
+      parallelList.classList.toggle("hidden", parallelSelect.value !== "Yes");
+      relatedList.classList.toggle("hidden", relatedSelect.value !== "Yes");
+      freqText.classList.toggle("hidden", freqSelect.value !== "Yes");
+    }
+
+    parallelSelect.addEventListener("change", updateVisibility);
+    relatedSelect.addEventListener("change", updateVisibility);
+    freqSelect.addEventListener("change", updateVisibility);
+
+    updateVisibility();
+
+    // Optional: handle form submit to prevent navigation and show collected data (demo)
+    document.getElementById('form').addEventListener('submit', async function(e){
+      e.preventDefault();
+
+      const fd = new FormData(this);
+      const obj = {};
+      for (const [k,v] of fd.entries()){
+        if (obj[k]) {
+          if (Array.isArray(obj[k])) obj[k].push(v);
+          else obj[k] = [obj[k], v];
+        } else obj[k] = v;
+      }
+
+      // POST to Google Apps Script Web App
+      // POST to Google Apps Script Web App
+      try {
+        const res = await fetch("https://script.google.com/macros/s/AKfycbzUk8sFEcwR7bh9ndCgbEXvoziMUy1yAdORkVBQ4bRMbvhSo4PRwFXSLH6_9h5VdRSM_Q/exec", {
+          method: "POST",
+          body: JSON.stringify(obj),
+          headers: { "Content-Type": "application/json" }
+        });
+        const data = await res.json();
+        if(data.status === 'success'){
+          alert("Data submitted successfully!");
+          this.reset();
+        } else {
+          alert("Error submitting: " + data.message);
+        }
+      } catch(err) {
+        alert("Network or server error: " + err.message);
+      }
+
+    });
+
+  });
+</script>
+
+</body>
+</html>
