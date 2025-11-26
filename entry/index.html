@@ -281,9 +281,61 @@ button[type="submit"]{
       <option>Yes</option>
     </select>
   </div>
-  <div><label for="counter">Counter-tradition:</label><textarea id="counter" name="counter"></textarea></div>
+  <div><label for="counter">Counter-Tradition:</label><textarea id="counter" name="counter"></textarea></div>
+  <div><label for="counter-unit">Counter-Tradition Unit:</label><input id="counter-unit" name="counter-unit" type="text"></input></div>
+
+  <div>
+    <label for="revelation-type">Revelation Type:</label>
+    <div id="revelation-type" style="display: flex; gap: 10px; margin-top: 4px;">
+      
+      <label for="meccan" style="display: flex; align-items: center; gap: 4px;">
+        <input type="radio" id="meccan" name="revelation-type" value="Meccan">
+        Meccan
+      </label>
+
+      <label for="medinan" style="display: flex; align-items: center; gap: 4px;">
+        <input type="radio" id="medinan" name="revelation-type" value="Medinan">
+        Medinan
+      </label>
+
+    </div>
+  </div>
+
+
+
+  <div>
+    <label for="overlap-levels">Overlap:</label>
+    <div id="overlap-levels" style="display: flex; gap: 12px; margin-top: 4px;">
+
+      <label for="overlap-low" style="display: flex; align-items: center; gap: 4px;">
+        <input type="radio" id="overlap-low" name="overlap" value="Low">
+        Low
+      </label>
+
+      <label for="overlap-med" style="display: flex; align-items: center; gap: 4px;">
+        <input type="radio" id="overlap-med" name="overlap" value="Medium">
+        Medium
+      </label>
+
+      <label for="overlap-high" style="display: flex; align-items: center; gap: 4px;">
+        <input type="radio" id="overlap-high" name="overlap" value="High">
+        High
+      </label>
+
+    </div>
+  </div>
+
+  <div><label for="amalgamation">Amalgamation:</label><input id="amalgamation" name="amalgamation" type="text"></input></div>
+
+
 
   <div><label for="readings">Further Readings:</label><textarea id="readings" name="readings"></textarea></div>
+
+  <div style="color: red;">
+    <label for="owner">Owner:</label>
+    <input id="owner" name="owner" type="text" style="background-color: #ffe5e5; border: 1px solid red;">
+  </div>
+
   
   <button type="submit">Submit</button>
 </form>
@@ -328,7 +380,11 @@ button[type="submit"]{
       <p><strong>Frequent Formula Text:</strong> The actual phrase identified as recurring, if “Yes” is selected above.</p>
       <p><strong>Interpolation:</strong> Any later additions or insertions within the text; separate with semicolons (;).</p>
       <p><strong>Earliest Antecedent:</strong> Indicates that a particular antecedent is the earliest source of this particular trend or tradition.</p>
-      <p><strong>Counter-tradition:</strong> Evidence of interpretation of Scripture or another source unlike or contradictory to the interpretation that developed into the Qur’an, including polemic traditions (i.e. a text or interpretation that deliberately contradicts or critiques another tradition); separate multiple entries with semicolons (;).</p>
+      <p><strong>Counter-Tradition:</strong> Evidence of interpretation of Scripture or another source unlike or contradictory to the interpretation that developed into the Qur’an, including polemic traditions (i.e. a text or interpretation that deliberately contradicts or critiques another tradition); separate multiple entries with semicolons (;).</p>
+      <p><strong>Counter-Tradition Unit:</strong> The textual segment that contains the counter-tradition under analysis.</p>
+      <p><strong>Revelation Type:</strong> Indicates whether the Qur’anic passage under analysis is classified as Meccan or Medinan.</p>
+      <p><strong>Overlap:</strong> Degree of textual overlap between the Qur’anic passage and its antecedent/counter-tradition (Low, Medium, High).</p>
+      <p><strong>Amalgamation:</strong> Indicates whether the Qur’anic passage under analysis combines elements from multiple antecedents or counter-traditions.</p>
       <p><strong>Further Readings:</strong> Short reference to any book or article that could be helpful in understanding the passage or topic under analysis; separate multiple entries with semicolons (;).</p>
     <!-- </div> -->
   </div>
@@ -382,7 +438,7 @@ updateConditional();
 
 // Form submission with multi-select handling
 const form=document.getElementById("myForm");
-const scriptURL="https://script.google.com/macros/s/AKfycbyvlkDMbS-OMkA1JzjWcEW24Nq1diYDX_itPUq5ok-N2hWp_Xv74YdO5utMK8t0vDOvsQ/exec";
+const scriptURL="https://script.google.com/macros/s/AKfycbyEwD6meKGX45ywaI8LIY9JojBN-olyfRHsGwscrIPezE760RZpDsPhARSYg2Tue8GzqA/exec";
 
 form.addEventListener("submit", e => {
   e.preventDefault();
