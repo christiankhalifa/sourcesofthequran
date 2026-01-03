@@ -331,6 +331,10 @@ button[type="submit"]{
 
   <div><label for="readings">Further Readings:</label><textarea id="readings" name="readings"></textarea></div>
 
+  <div><label for="notes">Notes:</label><textarea id="notes" name="notes"></textarea></div>
+
+
+
   <div style="color: red;">
     <label for="owner">Owner:</label>
     <input id="owner" name="owner" type="text" style="background-color: #ffe5e5; border: 1px solid red;">
@@ -438,7 +442,7 @@ updateConditional();
 
 // Form submission with multi-select handling
 const form=document.getElementById("myForm");
-const scriptURL="https://script.google.com/macros/s/AKfycbyEwD6meKGX45ywaI8LIY9JojBN-olyfRHsGwscrIPezE760RZpDsPhARSYg2Tue8GzqA/exec";
+const scriptURL="https://script.google.com/macros/s/AKfycbymK1QJqnxhEtSkj9RCo-eCKfh-E2w0sBH6HI1TOtBqOUq6CBGmZ3lxH4-1aKtqfuj_pA/exec";
 
 form.addEventListener("submit", e => {
   e.preventDefault();
