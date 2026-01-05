@@ -285,7 +285,7 @@ button[type="submit"]{
   <div><label for="counter-unit">Counter-Tradition Unit:</label><input id="counter-unit" name="counter-unit" type="text"></input></div>
 
   <div>
-    <label for="revelation-type">Revelation Type:</label>
+    <label for="revelation-type">Traditional Islamic Categorisation:</label>
     <div id="revelation-type" style="display: flex; gap: 10px; margin-top: 4px;">
       
       <label for="meccan" style="display: flex; align-items: center; gap: 4px;">
@@ -301,7 +301,14 @@ button[type="submit"]{
     </div>
   </div>
 
-
+  <div><label for="source-dating">Source Dating:</label>
+    <select id="source-dating" name="source-dating">
+      <option value=""></option>
+      <option>Definitely pre-Qur'anic</option>
+      <option>Possible post-Qur-anic, but containing pre-Qur'anic material</option>
+      <option>Definitely post-Qur'anic, but containing pre-Quranic material</option>
+    </select>
+  </div>
 
   <div>
     <label for="overlap-levels">Overlap:</label>
@@ -376,9 +383,9 @@ button[type="submit"]{
       <p><strong>Date Range for Production of MS:</strong> The time period during which the manuscript is thought to have been created.</p>
       <p><strong>Translator:</strong> The name of the person responsible for translating the specific antecedent text we are working with; if this is an eclectic translation, add the word “eclectic” in brackets.</p>
       <p><strong>Reference to Translation:</strong> Citation or link to the translated version of the antecedent.</p>
-      <p><strong>Parallel Passages:</strong>Indicate whether parallel or similar passages exist elsewhere in the Qur’an.</p>
+      <p><strong>Parallel Passages:</strong>Indicate whether parallel or similar passages exist elsewhere in the Qur’an or Bible.</p>
       <p><strong>Parallel Passages (List):</strong> List specific parallel verses or passages; separate with semicolons (;).</p>
-      <p><strong>Related Passages:</strong> Indicate whether there are thematically related verses elsewhere in the Qur’an.</p>   
+      <p><strong>Related Passages:</strong> Indicate whether there are thematically related verses elsewhere in the Qur’an or Bible.</p>   
       <p><strong>Related Passages (List):</strong> List the related verses; separate with semicolons (;).</p>
       <p><strong>Frequent Formula:</strong> Indicate whether the textual segment includes a recurring phrase or formula (e.g., “In the name of God …”).</p>
       <p><strong>Frequent Formula Text:</strong> The actual phrase identified as recurring, if “Yes” is selected above.</p>
@@ -386,7 +393,8 @@ button[type="submit"]{
       <p><strong>Earliest Antecedent:</strong> Indicates that a particular antecedent is the earliest source of this particular trend or tradition.</p>
       <p><strong>Counter-Tradition:</strong> Evidence of interpretation of Scripture or another source unlike or contradictory to the interpretation that developed into the Qur’an, including polemic traditions (i.e. a text or interpretation that deliberately contradicts or critiques another tradition); separate multiple entries with semicolons (;).</p>
       <p><strong>Counter-Tradition Unit:</strong> The textual segment that contains the counter-tradition under analysis.</p>
-      <p><strong>Revelation Type:</strong> Indicates whether the Qur’anic passage under analysis is classified as Meccan or Medinan.</p>
+      <p><strong>Traditional Islamic Categorisation:</strong> Indicates whether the Qur’anic passage under analysis is classified as Meccan or Medinan.</p>
+      <p><strong>Source Dating:</strong> Scholarly consensus on the dating of the antecedent/counter-tradition source relative to the Qur’an.</p>
       <p><strong>Overlap:</strong> Degree of textual overlap between the Qur’anic passage and its antecedent/counter-tradition (Low, Medium, High).</p>
       <p><strong>Amalgamation:</strong> Indicates whether the Qur’anic passage under analysis combines elements from multiple antecedents or counter-traditions.</p>
       <p><strong>Further Readings:</strong> Short reference to any book or article that could be helpful in understanding the passage or topic under analysis; separate multiple entries with semicolons (;).</p>
@@ -428,6 +436,7 @@ const relatedSelect=document.getElementById("related-select");
 const relatedContainer=document.getElementById("related-list-container");
 const freqSelect=document.getElementById("freq-select");
 const freqContainer=document.getElementById("freq-text-container");
+const sourceContainer=document.getElementById("source-dating");
 
 function updateConditional(){
   parallelContainer.classList.toggle("hidden",parallelSelect.value!=="Yes");
@@ -438,11 +447,12 @@ function updateConditional(){
 parallelSelect.addEventListener("change",updateConditional);
 relatedSelect.addEventListener("change",updateConditional);
 freqSelect.addEventListener("change",updateConditional);
+sourceContainer.addEventListener("change",updateConditional);
 updateConditional();
 
 // Form submission with multi-select handling
 const form=document.getElementById("myForm");
-const scriptURL="https://script.google.com/macros/s/AKfycbymK1QJqnxhEtSkj9RCo-eCKfh-E2w0sBH6HI1TOtBqOUq6CBGmZ3lxH4-1aKtqfuj_pA/exec";
+const scriptURL="https://script.google.com/macros/s/AKfycbwJzt0uh2vWtWn9LrKWn-Mcfu2x9nMwSKiMYVBlx0_qcRpiKv10M9YwMdZeA-hidCos/exec";
 
 form.addEventListener("submit", e => {
   e.preventDefault();
