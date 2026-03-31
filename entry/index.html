@@ -168,8 +168,8 @@ button[type="submit"]{
   <div><label for="quran-unit">Qur'anic Unit:</label><input id="quran-unit" name="quran-unit" type="text" placeholder="e.g., 28:7-14"></div>
   <div><label for="antecedent">Antecedent:</label><input id="antecedent" name="antecedent" type="text" placeholder="e.g., b. Sotah 12b:19-20"></div>
   <div><label for="antecedent-unit">Antecedent Unit:</label><input id="antecedent-unit" name="antecedent-unit" type="text" placeholder="e.g., b. Sotah 12b:19-22"></div>
-  <div><label for="antecedent-link">Reference; Link to Antecedent:</label><input id="antecedent-link" name="antecedent-link" type="text"></div>
   <div><label for="ancient-conn">Ancient Commentary Connection:</label><input id="ancient-conn" name="ancient-conn" type="text" placeholder="e.g., Midrash on Eccl. 7:19"></div>
+  <div><label for="antecedent-link">Reference; Link to Antecedent:</label><input id="antecedent-link" name="antecedent-link" type="text"></div>
   <div><label for="altern-titles">Alternative Title(s) or Tradition(s):</label><input id="altern-titles" name="altern-titles" type="text" placeholder="e.g., Apocalypse of Moses; Vitae Adae et Evae"></div>
   <div><label for="broad-lit-cat">Broad Literary Category:</label>
     <select id="broad-lit-cat" name="broad-lit-cat">
@@ -187,8 +187,9 @@ button[type="submit"]{
       <option>Alexander Romance</option>
       <option>Apostolic Romances/Letters</option>
       <option>Ascetic / Clerical / Monastic Lit.</option>
+      <option>Apocrypha & Pseudepigrapha</option>
       <option>Avesta</option>
-      <option>Biblical Apocrypha & Pseudepigrapha</option>
+      <option>Biblical Apocrypha</option>
       <option>Classical Historiography</option>
       <option>Hagiography</option>
       <option>Hebrew Bible</option>
@@ -235,13 +236,13 @@ button[type="submit"]{
   <div><label for="archive">Archive:</label><input id="archive" name="archive" type="text"></div>
   <div><label for="ms-lang">MS Language:</label><input id="ms-lang" name="ms-lang" type="text"></div>
   <div><label for="preserved-text">Preserved Text:</label><input id="preserved-text" name="preserved-text" type="text" placeholder="e.g., verses 10-15"></div>
-  <div><label for="ref-ms">Reference to MS:</label><input id="ref-ms" name="ref-ms" type="text"></div>
+  <div><label for="ref-ms">Reference to MS Scan(s):</label><input id="ref-ms" name="ref-ms" type="text"></div>
   <div><label for="ms-trans">Reference to MS Transcription:</label><input id="ms-trans" name="ms-trans" type="text"></div>
+  <div><label for="ref-translation">Reference to MS Translation(s):</label><input id="ref-translation" name="ref-translation" type="text"></div>
+  <div><label for="translator">Translator(s):</label><input id="translator" name="translator" type="text" placeholder="e.g., Duling (eclectic)"></div>
   <div><label for="date-ant">Date Range for Antecedent/Counter-tradition:</label><input id="date-ant" name="date-ant" type="text"></div>
   <div><label for="date-ms">Date Range for MS:</label><input id="date-ms" name="date-ms" type="text"></div>
-  <div><label for="translator">Translator:</label><input id="translator" name="translator" type="text" placeholder="e.g., Duling (eclectic)"></div>
-  <div><label for="ref-translation">Reference to Translation:</label><input id="ref-translation" name="ref-translation" type="text"></div>
-
+    
   <div><label for="parallel-select">Parallel Passages:</label>
     <select id="parallel-select" name="parallel">
       <option value=""></option>
@@ -368,8 +369,8 @@ button[type="submit"]{
       <p><strong>Qur'anic Unit:</strong> The textual segment in which the verse(s) under analysis are logically or semantically embedded.</p>
       <p><strong>Antecedent:</strong> Any pre-Qur’anic text useful for arguing that the passage under analysis contains borrowed and/or developed material.</p>
       <p><strong>Antecedent Unit:</strong> Textual segment that can be considered a comprehensive parallel text to the Qur’anic unit under analysis.</p>
+      <p><strong>Ancient Commentary Connection:</strong> Record which verse(s) the source was originally commenting on, e.g., Midrash on Eccl. 7:19.</p>
       <p><strong>Reference; Link to Antecedent:</strong> Bibliographic citation and/or URL linking to the antecedent text; separate multiple entries with semicolons (;).</p>
-      <p><strong>Ancient Commentary Connection:</strong> [CHECK]</p>
       <p><strong>Alternative Titles:</strong> List all language traditions of the antecedent under analysis.</p>
       <p><strong>Broad Literary Category:</strong> General classification of the antecedent.</p>
       <p><strong>Occasion for (Intentional or Unintentional) Misinterpretation:</strong> Insert Biblical verse(s) with mode of reference (lifted, quoted, cited or alluded to within the antecedent); separate multiple entries with semicolons (;).</p>
@@ -384,12 +385,12 @@ button[type="submit"]{
       <p><strong>Archive:</strong> The archive, library, or institution that holds the manuscript; separate multiple entries with semicolons (;).</p>
       <p><strong>MS Language:</strong> The language(s) in which the manuscript is written; separate multiple entries with semicolons (;).</p>
       <p><strong>Preserved Text:</strong> The specific portion of text that has survived; specify whether your given numbers relate to lines, sections or verses.</p>
-      <p><strong>Reference to MS:</strong> Catalog reference, shelf mark, or URL linking to scan.</p>
+      <p><strong>Reference to MS Scan(s):</strong> Catalog reference, shelf mark, or URL linking to scan.</p>
       <p><strong>Reference to MS Transcription: </strong>Citation or link to a published or digital transcription of the manuscript.</p>
+      <p><strong>Reference to MS Translation(s):</strong> Citation or link to the translated version of the antecedent.</p>
+      <p><strong>Translator(s):</strong> The name of the person responsible for translating the specific antecedent text we are working with; if this is an eclectic translation, add the word “eclectic” in brackets.</p>
       <p><strong>Date Range for Production of Antecedent/Counter-Tradition:</strong> The estimated time period during which the antecedent text is thought to have been composed. Provide citations for further readings.</p>
       <p><strong>Date Range for Production of MS:</strong> The time period during which the manuscript is thought to have been created.</p>
-      <p><strong>Translator:</strong> The name of the person responsible for translating the specific antecedent text we are working with; if this is an eclectic translation, add the word “eclectic” in brackets.</p>
-      <p><strong>Reference to Translation:</strong> Citation or link to the translated version of the antecedent.</p>
       <p><strong>Parallel Passages:</strong>Indicate whether parallel or similar passages exist elsewhere in the Qur’an or Bible.</p>
       <p><strong>Parallel Passages (List):</strong> List specific parallel verses or passages; separate with semicolons (;).</p>
       <p><strong>Related Passages:</strong> Indicate whether there are thematically related verses elsewhere in the Qur’an or Bible.</p>   
@@ -400,7 +401,7 @@ button[type="submit"]{
       <p><strong>Earliest Antecedent:</strong> Indicates that a particular antecedent is the earliest source of this particular trend or tradition.</p>
       <p><strong>Counter-Tradition:</strong> Evidence of interpretation of Scripture or another source unlike or contradictory to the interpretation that developed into the Qur’an, including polemic traditions (i.e. a text or interpretation that deliberately contradicts or critiques another tradition); separate multiple entries with semicolons (;).</p>
       <p><strong>Counter-Tradition Unit:</strong> The textual segment that contains the counter-tradition under analysis.</p>
-      <p><strong>Content:</strong>[CHECK]</p>
+      <p><strong>Content:</strong> Brief description of key content. Why is it significant?</p>
       <p><strong>Source Dating:</strong> Scholarly consensus on the dating of the antecedent/counter-tradition source relative to the Qur’an.</p>
       <p><strong>Overlap:</strong> Degree of textual overlap between the Qur’anic passage and its antecedent/counter-tradition (Low, Medium, High).</p>
       <p><strong>Amalgamation:</strong> Indicates whether the Qur’anic passage under analysis combines elements from multiple antecedents or counter-traditions.</p>
@@ -459,7 +460,7 @@ updateConditional();
 
 // Form submission with multi-select handling
 const form=document.getElementById("myForm");
-const scriptURL="https://script.google.com/macros/s/AKfycbzenSSb3BBHhFvVgZgqzfYAHHfqLiLUTyUlEaAfanTMH3qYN1cFGwKaC2YZ7FHOklsEMw/exec";
+const scriptURL="https://script.google.com/macros/s/AKfycbxNSE8PWJMbCEdgoGXWNUdBmY88CT-kD8cCNnOvLtOn7ZWots0SFnbHOSIdQsbax7hNLA/exec";
 
 form.addEventListener("submit", e => {
   e.preventDefault();
