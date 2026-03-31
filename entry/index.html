@@ -169,6 +169,7 @@ button[type="submit"]{
   <div><label for="antecedent">Antecedent:</label><input id="antecedent" name="antecedent" type="text" placeholder="e.g., b. Sotah 12b:19-20"></div>
   <div><label for="antecedent-unit">Antecedent Unit:</label><input id="antecedent-unit" name="antecedent-unit" type="text" placeholder="e.g., b. Sotah 12b:19-22"></div>
   <div><label for="antecedent-link">Reference; Link to Antecedent:</label><input id="antecedent-link" name="antecedent-link" type="text"></div>
+  <div><label for="ancient-conn">Ancient Commentary Connection:</label><input id="ancient-conn" name="ancient-conn" type="text"></div>
   <div><label for="altern-titles">Alternative Title(s) or Tradition(s):</label><input id="altern-titles" name="altern-titles" type="text" placeholder="e.g., Apocalypse of Moses; Vitae Adae et Evae"></div>
   <div><label for="broad-lit-cat">Broad Literary Category:</label>
     <select id="broad-lit-cat" name="broad-lit-cat">
@@ -287,6 +288,8 @@ button[type="submit"]{
   <div><label for="counter">Counter-Tradition:</label><textarea id="counter" name="counter"></textarea></div>
   <div><label for="counter-unit">Counter-Tradition Unit:</label><input id="counter-unit" name="counter-unit" type="text"></input></div>
 
+  <div><label for="content">Content:</label><textarea id="content" name="content"></textarea></div>
+
   <div>
     <label for="revelation-type">Traditional Islamic Categorisation:</label>
     <div id="revelation-type" style="display: flex; gap: 10px; margin-top: 4px;">
@@ -366,6 +369,7 @@ button[type="submit"]{
       <p><strong>Antecedent:</strong> Any pre-Qur’anic text useful for arguing that the passage under analysis contains borrowed and/or developed material.</p>
       <p><strong>Antecedent Unit:</strong> Textual segment that can be considered a comprehensive parallel text to the Qur’anic unit under analysis.</p>
       <p><strong>Reference; Link to Antecedent:</strong> Bibliographic citation and/or URL linking to the antecedent text; separate multiple entries with semicolons (;).</p>
+      <p><strong>Ancient Commentary Connection:</strong> [CHECK]</p>
       <p><strong>Alternative Titles:</strong> List all language traditions of the antecedent under analysis.</p>
       <p><strong>Broad Literary Category:</strong> General classification of the antecedent.</p>
       <p><strong>Occasion for (Intentional or Unintentional) Misinterpretation:</strong> Insert Biblical verse(s) with mode of reference (lifted, quoted, cited or alluded to within the antecedent); separate multiple entries with semicolons (;).</p>
@@ -396,7 +400,7 @@ button[type="submit"]{
       <p><strong>Earliest Antecedent:</strong> Indicates that a particular antecedent is the earliest source of this particular trend or tradition.</p>
       <p><strong>Counter-Tradition:</strong> Evidence of interpretation of Scripture or another source unlike or contradictory to the interpretation that developed into the Qur’an, including polemic traditions (i.e. a text or interpretation that deliberately contradicts or critiques another tradition); separate multiple entries with semicolons (;).</p>
       <p><strong>Counter-Tradition Unit:</strong> The textual segment that contains the counter-tradition under analysis.</p>
-      <p><strong>Traditional Islamic Categorisation:</strong> Indicates whether the Qur’anic passage under analysis is classified as Meccan or Medinan.</p>
+      <p><strong>Content:</strong>[CHECK]</p>
       <p><strong>Source Dating:</strong> Scholarly consensus on the dating of the antecedent/counter-tradition source relative to the Qur’an.</p>
       <p><strong>Overlap:</strong> Degree of textual overlap between the Qur’anic passage and its antecedent/counter-tradition (Low, Medium, High).</p>
       <p><strong>Amalgamation:</strong> Indicates whether the Qur’anic passage under analysis combines elements from multiple antecedents or counter-traditions.</p>
@@ -455,7 +459,7 @@ updateConditional();
 
 // Form submission with multi-select handling
 const form=document.getElementById("myForm");
-const scriptURL="https://script.google.com/macros/s/AKfycbwJzt0uh2vWtWn9LrKWn-Mcfu2x9nMwSKiMYVBlx0_qcRpiKv10M9YwMdZeA-hidCos/exec";
+const scriptURL="https://script.google.com/macros/s/AKfycbyIByITPMS0P7QvpTLbUQwnG3Qcv43WAPQRXIZbpGOqeaSU_jFVDyAI4FlUKFxu7Y9thg/exec";
 
 form.addEventListener("submit", e => {
   e.preventDefault();
