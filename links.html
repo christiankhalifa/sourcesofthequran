@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Helpful Study Links</title>
+
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f3f4f6;
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+    }
+
+    nav {
+      background: #3182ce;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      margin-right: 2rem;
+    }
+
+    .banner {
+      background: linear-gradient(135deg, #2b6cb0, #3182ce);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+      border-radius: 0.75rem;
+      margin: 2rem 0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: .75rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 1.25rem;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+    }
+
+    h2 {
+      margin-top: 0;
+      color: #2d3748;
+    }
+
+    a.link-btn {
+      display: inline-block;
+      margin-top: 0.75rem;
+      padding: 0.5rem 1rem;
+      background: #3182ce;
+      color: white;
+      text-decoration: none;
+      border-radius: 0.5rem;
+      font-weight: bold;
+    }
+
+    a.link-btn:hover {
+      background: #2b6cb0;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #888;
+      margin-top: 3rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="links.html">Links</a>
+  </nav>
+
+  <!-- HEADER -->
+  <div class="banner">
+    <h1>Study & Reference Links</h1>
+    <p>Helpful tools for comparing Qur’anic, Biblical, and historical texts</p>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="container">
+
+    <!-- BibleGateway -->
+    <div class="card">
+      <h2>BibleGateway</h2>
+      <p>
+        A widely used Bible reading website with multiple translations, search tools,
+        and easy navigation.
+      </p>
+      <a class="link-btn" href="https://www.biblegateway.com/" target="_blank">
+        Visit BibleGateway
+      </a>
+    </div>
+
+    <!-- Bible Hub -->
+    <div class="card">
+      <h2>Bible Hub</h2>
+      <p>
+        Provides commentaries, concordances, Greek & Hebrew tools,
+        and cross-references for deep study.
+      </p>
+      <a class="link-btn" href="https://biblehub.com/" target="_blank">
+        Visit Bible Hub
+      </a>
+    </div>
+
+    <!-- Bible Hub Interlinear -->
+    <div class="card">
+      <h2>Bible Hub Interlinear</h2>
+      <p>
+        View the original Greek and Hebrew text alongside English translations
+        for detailed word-by-word analysis.
+      </p>
+      <a class="link-btn" href="https://biblehub.com/interlinear/" target="_blank">
+        Open Interlinear Bible
+      </a>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <p>&copy; 2026 SourcesOfTheQuran.com</p>
+  </div>
+
+</body>
+</html>
