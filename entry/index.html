@@ -169,7 +169,7 @@ button[type="submit"]{
   <div><label for="antecedent">Antecedent:</label><input id="antecedent" name="antecedent" type="text" placeholder="e.g., b. Sotah 12b:19-20"></div>
   <div><label for="antecedent-unit">Antecedent Unit:</label><input id="antecedent-unit" name="antecedent-unit" type="text" placeholder="e.g., b. Sotah 12b:19-22"></div>
   <div><label for="antecedent-link">Reference; Link to Antecedent:</label><input id="antecedent-link" name="antecedent-link" type="text"></div>
-  <div><label for="ancient-conn">Ancient Commentary Connection:</label><input id="ancient-conn" name="ancient-conn" type="text"></div>
+  <div><label for="ancient-conn">Ancient Commentary Connection:</label><input id="ancient-conn" name="ancient-conn" type="text" placeholder="e.g., Midrash on Eccl. 7:19"></div>
   <div><label for="altern-titles">Alternative Title(s) or Tradition(s):</label><input id="altern-titles" name="altern-titles" type="text" placeholder="e.g., Apocalypse of Moses; Vitae Adae et Evae"></div>
   <div><label for="broad-lit-cat">Broad Literary Category:</label>
     <select id="broad-lit-cat" name="broad-lit-cat">
@@ -288,7 +288,7 @@ button[type="submit"]{
   <div><label for="counter">Counter-Tradition:</label><textarea id="counter" name="counter"></textarea></div>
   <div><label for="counter-unit">Counter-Tradition Unit:</label><input id="counter-unit" name="counter-unit" type="text"></input></div>
 
-  <div><label for="content">Content:</label><textarea id="content" name="content"></textarea></div>
+  <div><label for="content">Content:</label><textarea id="content" name="content" placeholder="Brief description of key content."></textarea></div>
 
   <div>
     <label for="revelation-type">Traditional Islamic Categorisation:</label>
@@ -459,7 +459,7 @@ updateConditional();
 
 // Form submission with multi-select handling
 const form=document.getElementById("myForm");
-const scriptURL="https://script.google.com/macros/s/AKfycbyIByITPMS0P7QvpTLbUQwnG3Qcv43WAPQRXIZbpGOqeaSU_jFVDyAI4FlUKFxu7Y9thg/exec";
+const scriptURL="https://script.google.com/macros/s/AKfycbzenSSb3BBHhFvVgZgqzfYAHHfqLiLUTyUlEaAfanTMH3qYN1cFGwKaC2YZ7FHOklsEMw/exec";
 
 form.addEventListener("submit", e => {
   e.preventDefault();
