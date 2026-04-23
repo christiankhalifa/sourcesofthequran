@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Qur’anic Stories & Extra‑Biblical Parallels</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f3f4f6;
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #1a202c;
+      margin-bottom: 0.5rem;
+    }
+    .subtitle {
+      text-align: center;
+      color: #555;
+      font-size: 0.95em;
+      margin-bottom: 2rem;
+    }
+    select {
+      display: block;
+      margin: 0 auto 2rem auto;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      border-radius: 0.5rem;
+      border: 1px solid #ccc;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background: #fff;
+      border-radius: .75rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 1.25rem;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeIn 0.6s forwards;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+    }
+    .card:nth-child(n) {
+      animation-delay: calc(0.1s * var(--i));
+    }
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    h2 {
+      margin-top: 0;
+      color: #2d3748;
+    }
+    .verse {
+      font-weight: bold;
+      color: #444;
+      font-size: 0.95em;
+      margin-bottom: 0.3rem;
+    }
+    .date {
+      color: #3300ff;
+      font-weight: bold;
+      font-size: 0.9em;
+      margin: 0.2rem 0 0.7rem 0;
+    }
+    .source {
+      font-weight: bold;
+      color: #ff0000;
+      font-size: 0.9em;
+      margin-bottom: 0.3rem;
+    }
+    .quote {
+      display: none;
+      margin: 0.5rem 0;
+      line-height: 1.4;
+    }
+    .card.open .quote {
+      display: block;
+    }
+    .similarity {
+      font-size: 0.85em;
+      color: #666;
+      margin-top: 0.5rem;
+    }
+    
+    .banner {
+      background: linear-gradient(135deg, #2b6cb0, #3182ce);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+      border-radius: 0.75rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .banner h1 {
+      font-size: 1.75rem;
+      margin-bottom: 0.5rem;
+    }
+    .banner p {
+      font-size: 1.05rem;
+      margin: 0;
+    }
+    .legend {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+      color: #2d3748;
+      align-items: center;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .box {
+      width: 16px;
+      height: 16px;
+      border-radius: 0.25rem;
+      border: 1px solid #999;
+    }
+
+    .very-strong {
+      background-color: #c6f6d5;
+    }
+    .strong {
+      background-color: #fefcbf;
+    }
+    .moderate {
+      background-color: #fbd38d;
+    }
+    .weak {
+      background-color: #feb2b2;
+    }
+
+    .more-incoming {
+      text-align: center;
+      font-size: 1rem;
+      color: #4a5568;
+      margin: 3rem 0 1rem 0;
+      animation: fadeInUp 2s ease-out;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #888;
+      padding-bottom: 2rem;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+
+  </style>
+  <link rel="icon" href="quran-icon.png" type="image/png">
+</head>
+<body>
+  
+  <nav style="background: #3182ce; padding: 1rem 2rem; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+    <a href="index.html" style="color: white; text-decoration: none; font-weight: bold; margin-right: 2rem;">Home</a>
+    <!-- <a href="quranvariations.html" style="color: white; text-decoration: none; font-weight: bold; margin-right: 2rem;">Quran Variations</a>
+    <a href="quranmistakes.html" style="color: white; text-decoration: none; font-weight: bold; margin-right: 2rem;">Quran Mistakes</a>
+    <a href="manuscriptvariations.html" style="color: white; text-decoration: none; font-weight: bold;">Manuscript Variations</a> -->
+    <a href="links.html" style="color: white; text-decoration: none; font-weight: bold;">
+      Links
+    </a>
+
+  </nav>
+
+  
+
+
+
+
+  <div class="banner">
+    <h1>Qur'anic Stories and Extra-Biblical Traditions</h1>
+    <p>Discover how Qur’anic narratives connect to Jewish, Christian, and apocryphal traditions.</p>
+  </div>
+  <!-- <div class="legend">
+    <span class="legend-item"><span class="box very-strong"></span> ≥ 85% Very Strong</span>
+    <span class="legend-item"><span class="box strong"></span> 75–84% Strong</span>
+    <span class="legend-item"><span class="box moderate"></span> 60–74% Moderate</span>
+    <span class="legend-item"><span class="box weak"></span> &lt; 60% Weak</span>
+  </div>
+ -->
+  
+  <!-- <div style="text-align: right; margin: 2rem 0;">
+    <a href="https://buymeacoffee.com/christianc6" 
+      style="background: #ffdd00; color: #000; padding: 0.75rem 1.5rem; text-decoration: none; font-weight: bold; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.2);">
+      Support this website
+    </a>
+  </div> -->
+
+
+  <h3 style="max-width: 720px; margin: 0 auto 2rem auto; text-align: center; color: #991b1b; font-weight: bold;">
+    “The first to state his case seems right <br> until another comes and cross-examines him.”<br><br>Proverbs 18:17
+  </h3>
+
+  <div style="max-width: 720px; margin: 0 auto 2rem auto; color: #333; font-size: 1rem; line-height: 1.6;">
+
+    <h2 style="text-align: center; color: #1a202c; margin-bottom: 1rem;">Introduction</h2>
+
+    <p>
+      The Qur’an claims to be a divine revelation, yet it openly acknowledges that the Prophet Muhammad often acted as an <strong>“ear”</strong> — a receiver and reteller of stories from previous peoples. For instance, the Qur’an describes Muhammad as:
+    </p>
+
+    <blockquote style="background: #f7fafc; border-left: 4px solid #3182ce; padding: 1rem 1.25rem; margin: 1rem 0; font-style: italic; color: #2d3748;">
+      “And indeed, you (O Muhammad) are hearing (an ear) of the truth from Him in truth; a bearer of good news and a warner.” <br/>
+      <small style="display:block; margin-top: 0.25rem;">(Qur’an 25:5)</small>
+    </blockquote>
+
+    <blockquote style="background: #f7fafc; border-left: 4px solid #3182ce; padding: 1rem 1.25rem; margin: 1rem 0; font-style: italic; color: #2d3748;">
+      “You are not (engaged) in any affairs, but We are a watcher over you.”<br/>
+      <small style="display:block; margin-top: 0.25rem;">(Qur’an 28:48)</small>
+    </blockquote>
+
+    <p>
+      More explicitly, it states:
+    </p>
+
+    <blockquote style="background: #f7fafc; border-left: 4px solid #3182ce; padding: 1rem 1.25rem; margin: 1rem 0; font-style: italic; color: #2d3748;">
+      “We did not teach him [Muhammad] poetry, nor is it befitting for him. It is only a Message and a clear Qur’an.”<br/>
+      <small style="display:block; margin-top: 0.25rem;">(Qur’an 36:69–70)</small>
+    </blockquote>
+
+    <p>
+      This demonstrates that Muhammad was not a poet or original author but a transmitter of messages, many of which the Qur’an itself admits are based on ancient narratives.
+    </p>
+
+    <p>
+      Throughout the Qur’an, numerous stories—such as those of Adam and Satan (2:30–34), Noah’s people (71:1–28), Moses and Pharaoh (28:3), and Solomon and the hoopoe bird (27:20–28)—closely parallel Jewish, Christian, and apocryphal legends circulating long before the Qur’an’s compilation.
+    </p>
+
+    <p>
+      <strong>Sources of the Qur’an</strong> focuses on identifying parallels with lesser-known Jewish and Christian apocryphal texts, legends, and oral traditions because the Qur’an extensively borrows from the Torah and the Gospel, which are well-known and easily accessible. Therefore, those primary sources are not exhaustively cited here, as their influence on the Qur’an is already clear and widely recognized.
+    </p>
+
+    <p>
+      By exploring these connections, this site challenges the claim that the Qur’an is an entirely original revelation and encourages readers to reconsider its historical and literary origins.
+    </p>
+  </div>
+
+
+  
+  <select id="chapterFilter">
+    <option value="all">All Surahs</option>
+    <option value="2">Surah 2</option>
+    <option value="3">Surah 3</option>
+    <option value="4">Surah 4</option>
+    <option value="5">Surah 5</option>
+    <option value="6">Surah 6</option>
+    <option value="7">Surah 7</option>
+    <option value="18">Surah 18</option>
+    <option value="19">Surah 19</option>
+    <option value="21">Surah 21</option>
+    <option value="27">Surah 27</option>
+    <option value="34">Surah 34</option>
+    <option value="85">Surah 85</option>
+  </select>
+
+  <p style="color: #ff0000; font-weight: bold;">*Clarification:
+The parallels presented here are not intended to claim that the Qur’an copied these sources word for word. Rather, the evidence suggests that many of its narratives bear striking similarities in structure, themes, and details to pre-existing Jewish, Christian, and apocryphal traditions.</p>
+
+<span style="background-color: yellow; padding: 2px 5px;">Click on the card for more information on the similarity</span>
+
+
+<div class="container">
+
+    <div class="card" data-surah="2" style="--i:1">
+      <h2>Satan’s Downfall: Refusal to Prostrate to Man</h2>
+      <p class="verse">Qur’an 2:34–36</p>
+      <blockquote>
+        Iblis refused to bow to Adam, how Adam and his wife were deceived into eating from the forbidden tree, and how they were sent to earth with the promise that divine guidance would protect those who follow it.  
+      </blockquote>
+      <p class="date">1st Century AD</p>
+      <p class="source">Life of Adam and Eve 14:2-17:2 [<a href="https://www.marquette.edu/maqom/Latin%20Life%20of%20Adam%20and%20Eve.pdf">Latin life of Adam and Eve</a>]</p>
+      <p class="quote">
+        The Devil explains that he refused to worship Adam, claiming superiority and leading other angels into disobedience. Cast out by God, he envied Adam’s happiness and deceived Eve to cause their fall. Adam then prayed for God’s protection, and the Devil vanished.  
+      </p>
+    </div>
+
+
+
+
+    <div class="card" data-surah="2" style="--i:2">
+      <h2>A King Debates with Abraham</h2>
+      <p class="verse">Qur’an 2:258</p>
+      <blockquote>Have you not considered the one who argued with Abraham about his Lord because Allah had given him kingship? Abraham said, "My Lord is the one who gives life and causes death." He said, "I give life and cause death." Abraham said, "Indeed, Allah brings up the sun from the east, so bring it up from the west." So the disbeliever was overwhelmed...</blockquote>
+      <p class="date">400 AD</p>
+      <p class="source">Bereshit (Genesis) Rabbah 38:13 [<a href="https://www.sefaria.org/Bereshit_Rabbah.38.13?lang=bi&with=About&lang2=en">Sefaria.org</a>] </p>
+      <p class="quote">Both Qur’an 2:258 and Genesis Rabbah 38:13 depict a confrontation between Abraham and King Nimrod, emphasizing the theme of human arrogance versus divine authority. In both narratives, Nimrod claims power over life, death, or the elements, while Abraham counters by asserting that only God possesses ultimate control. Abraham’s steadfast monotheism is highlighted through reasoned argument: in Genesis Rabbah, he debates the elements (fire, water, clouds, wind, humans), and in the Qur’an, he challenges Nimrod rhetorically by asking him to bring the sun from the west.</p>
+    </div>
+
+    <div class="card" data-surah="3" style="--i:3">
+      <h2>Mary Living in the Temple & Divine Provision</h2>
+      <p class="verse">Qur’an 3:37</p>
+      <blockquote>
+        So her Lord accepted her with good acceptance and caused her to grow in a good manner. And Zakariyyā took charge of her. Whenever Zakariyyā entered her chamber, he found with her provision. He said, "O Mary, from where is this [coming]?" She said, "It is from Allah. Indeed, Allah provides for whom He wills without account."
+      </blockquote>
+      <p class="date">145 AD</p>
+      <p class="source">Protoevangelium of James 7, 8 [<a href="https://www.newadvent.org/fathers/0847.htm">newadvent.org</a>]</p>
+      <p class="quote">
+        Both the Protoevangelium of James and Qur’an 3:37 highlight Mary’s special dedication and divine care from childhood. In both, she is chosen, protected, and nurtured by God, living a holy life that prepares her for her future role.
+      </p>
+    </div>
+
+    <div class="card" data-surah="3" style="--i:2">
+      <h2>Jesus Creates Birds from Clay</h2>
+      <p class="verse">Qur’an 3:49</p>
+      <blockquote>And [make him] a messenger to the Children of Israel, [who will say], "Indeed I have come to you with a sign from your Lord in that I design for you from clay [that which is] like the form of a bird, then I breathe into it and it becomes a bird by permission of Allah...</blockquote>
+      <p class="date">150-200 AD</p>
+      <p class="source">Infancy Gospel of Thomas 2:2,4 [<a href="https://www.gospels.net/infancythomas">gospels.net</a>]</p>
+      <p class="quote">He formed twelve sparrows of clay... and cried to them: 'Go!' And they began to fly.</p>
+    </div>
+
+    <div class="card" data-surah="4" style="--i:3">
+      <h2>Jesus Was Not Crucified</h2>
+      <p class="verse">Qur’an 4:157</p>
+      <blockquote>
+        And [for] their saying, "Indeed, we have killed the Messiah, Jesus, the son of Mary, the messenger of Allah." And they did not kill him, nor did they crucify him; but [another] was made to resemble him to them...
+      </blockquote>
+      <p class="date">150–200 AD</p>
+      <p class="source">Apocalypse of Peter para. 26 (Nag Hammadi Codex VII, 3) [<a href="http://www.gnosis.org/naghamm/apopet.html">gnosis.org</a>]</p>
+      <p class="quote">I saw him seemingly being seized by them. And I said, “What do I see, O Lord? That it is you yourself they take, and that you are grasping me? Who is this one, then, being crucified?" And he said, “The one you see being crucified is the substitute... But I am laughing above the cross.”</p>
+    </div>
+
+    <div class="card" data-surah="5" style="--i:4">
+      <h2>Cain Learns Burial from a Raven</h2>
+      <p class="verse">Qur’an 5:31</p>
+      <blockquote>
+        Then Allah sent a crow searching [i.e., scratching] in the ground to show him how to hide the disgrace of his brother. He said, "Woe to me! Have I failed to be like this crow and hide the body of my brother?" And he became of the regretful.
+      </blockquote>
+      <p class="date">500-800AD</p>
+      <p class="source">Midrash Tanchuma, Bereshit (Genesis) 10:2 [<a href="https://www.sefaria.org/Midrash_Tanchuma%2C_Bereshit.10.2?lang=bi">sefaria.org</a>]</p>
+      <p class="quote">
+        Adam and his companion sat weeping and mourning for him [Abel], and they did not know what to do with him... A raven, whose companion had died, took its body, dug in the earth, and buried it before their eyes. Adam said, "I shall do as this raven has done," and at once he took Abel’s corpse and dug in the earth and buried it.
+      </p>
+    </div>
+
+
+    <div class="card" data-surah="5" style="--i:3">
+      <h2>Killing One Equals Killing All</h2>
+      <p class="verse">Qur’an 5:32</p>
+      <blockquote>Because of that, We decreed upon the Children of Israel that whoever kills a soul unless for a soul or for corruption [done] in the land - it is as if he had slain mankind entirely...</blockquote>
+      <p class="date">190-230 AD</p>
+      <p class="source">Mishnah Sanhedrin 4:5 [<a href="https://www.sefaria.org/Mishnah_Sanhedrin.4.5?lang=bi&with=About&lang2=en">sefaria.org</a>]</p>
+      <p class="quote">If anyone destroys a single life... it is as if he destroyed the whole world.</p>
+
+    </div>
+
+    <div class="card" data-surah="5" style="--i:4">
+      <h2>Jesus and the Clay Birds Again</h2>
+      <p class="verse">Qur’an 5:110</p>
+      <blockquote>...and when You designed from clay [what was] like the form of a bird with My permission, then You breathed into it, and it became a bird with My permission...</blockquote>
+      <p class="date">150-200 AD</p>
+      <p class="source">Infancy Gospel of Thomas 2:2,4 [<a href="https://www.gospels.net/infancythomas">gospels.net</a>]</p>
+      <p class="quote">Jesus made twelve sparrows out of clay and breathed into them and they flew away chirping.</p>
+
+    </div>
+
+    <!-- <div class="card" data-surah="5" style="--i:4">
+      <h2>Table from Heaven</h2>
+      <p class="verse">Qur’an 5:115</p>
+      <blockquote>Allah said, "Indeed, I will send it down to you, but whoever disbelieves afterwards from among you - then indeed will I punish him with a punishment by which I have not punished anyone among the worlds."</blockquote>
+      <p class="date">2nd–3rd century CE</p>
+      <p class="source">Gospel of the Hebrews</p>
+      <p class="quote">A table was sent to him from heaven... and it was full of all sorts of good things.</p>
+      <p class="similarity">Similarity: 70%</p>
+    </div> -->
+
+    <div class="card" data-surah="6" style="--i:5">
+      <h2>Abraham’s Search for God</h2>
+      <p class="verse">Qur’an 6:75–79; 37:88-89 </p>
+      <p>Unit: 6:74-83; 37:83-98</p>
+      <blockquote>In this way We showed Abraham Our kingdom of the heavens and the earth, so
+that he might have certainty of faith.
+When night descended on him, he saw a star. He said, ‘This is my Lord!’ Then
+when it set he said, ‘I do not love things that set.’
+When he saw the moon rise and spread its light, he said, ‘This is my Lord.’ But
+when it set, he said, ‘If my Lord does not guide me, I will be one of the misguided
+people.’
+Then, when he saw the sun shining, he said, ‘This is my Lord! This is the greatest
+of all!’ Then when it set, he said, ‘My people, I disown all that you worship
+besides God.
+I have set my face with single-minded devotion, towards Him who has created the
+heavens and the earth, and I am not one of the polytheists.’ <br><br>
+
+And said, ‘I am sick,’
+so they turned their backs on him and went off.
+</blockquote>
+      <p class="date">460 BC-140 AD; 70-150 AD</p>
+      <p class="source">Book of Jubilees 12:17-20 [<a href="https://www.sefaria.org/Book_of_Jubilees.12.17?lang=bi&with=About&lang2=en">sefaria.org</a>]; Apocalypse of Abraham 7:8-10 [<a href="https://www.pseudepigrapha.com/pseudepigrapha/Apocalypse_of_Abraham.html">pseudepigrapha.com</a>]</p>
+      <p class="quote">Abraham sees the stars, moon, and sun and considers each as God, until realizing none are.</p>
+    </div>
+
+    <div class="card" data-surah="7" style="--i:2">
+      <h2>Adam and Eve’s Fall</h2>
+      <p class="verse">Qur’an 7:11–27</p>
+      <blockquote>
+        Allah created Adam and commanded the angels to prostrate; Iblis refused and was expelled.  
+        Adam and Eve were placed in Paradise, tempted by Satan, disobeyed, and repented.  
+        Allah sent them to Earth, gave them clothing, and warned mankind about Satan.
+      </blockquote>
+      <p class="date">1st Century AD</p>
+      <p class="source">Life of Adam and Eve 14:3 [<a href="https://www.marquette.edu/maqom/Latin%20Life%20of%20Adam%20and%20Eve.pdf">Latin Life of Adam and Eve</a>]</p>
+      <p class="quote">
+        Michael said "... I will not worship him who is lower and posterior to me. 
+        I am prior to that creature. Before he was made, I had already been made. 
+        He ought to worship me.'"
+      </p>
+    </div>
+
+
+    <div class="card" data-surah="7" style="--i:6">
+      <h2>Mount Sinai Held Over the Israelites</h2>
+      <p class="verse">Qur’an 7:171</p>
+      <blockquote>And [mention] when We raised the mountain above them as if it was a canopy, and they were certain that it would fall upon them...</blockquote>
+      <p class="date">450–550 AD</p>
+      <p class="source">Babylonian Talmud (Shabbat) 88a:5 [<a href="https://www.sefaria.org/Shabbat.88a.5?lang=bi&with=About&lang2=en">sefaria.org</a>]</p>
+      <p class="quote">“The Holy One, blessed be He, overturned the mountain upon them like a barrel and said: If you accept the Torah, good; if not, there shall be your burial place.”</p>
+    </div>
+
+    <div class="card" data-surah="17" style="--i:1">
+      <h2>The Night Journey</h2>
+      <p class="verse">Qur’an 17:1</p>
+      <blockquote>
+        Exalted is He who took His Servant by night from al-Masjid al-Harām to al-Masjid al-Aqṣā, whose surroundings We have blessed, to show him of Our signs. Indeed, He is the Hearing, the Seeing.
+      </blockquote>
+      <p class="date">621 AD</p>
+      <p class="source">
+        *Arda Viraf Namag* (Zoroastrian visionary text) — parallels in heavenly journey  
+        [<a href="https://www.avesta.org/mp/viraf.html">avesta.org translation</a>]
+      </p>
+      <p class="quote">
+       The Qur’an’s Night Journey (17:1), where Muhammad is taken by night and shown divine signs, parallels the Zoroastrian Arda Viraf Namag, in which Viraf, guided by angels, journeys through heaven and hell. Both affirm their faiths through a visionary ascent, yet differ in focus: Islam emphasizes Muhammad’s prophetic authority, while Zoroastrianism stresses moral judgment. The Qur’an gives only a brief mention, with details of the Miʿrāj found in Hadith compiled about 150–200 years later in the 8th–9th centuries (e.g., Bukhari, Muslim), whereas the Arda Viraf Namag is a detailed narrative redacted in the 9th–10th centuries but rooted in older Iranian visionary traditions.
+      </p>
+    </div>
+
+    
+
+    <!-- <div class="card" data-surah="17" style="--i:6">
+      <h2>Night Journey</h2>
+      <p class="verse">Qur’an 17:1</p>
+      <blockquote>Exalted is He who took His Servant by night from al-Masjid al-Haram to al-Masjid al-Aqsa, whose surroundings We have blessed, to show him of Our signs. Indeed, He is the Hearing, the Seeing.</blockquote>
+      <p class="date">1st–3rd century CE</p>
+      <p class="source">Hekhalot Literature</p>
+      <p class="quote">The righteous ascended through heavenly palaces (hekhalot), accompanied by angels, witnessing wonders of the divine realm.</p>
+      <p class="similarity">Similarity: 78%</p>
+    </div> -->
+    
+    <div class="card" data-surah="18" style="--i:7">
+      <h2>The 7 Sleepers of Ephesus legend</h2>
+      <p class="verse">Qur’an 18:9-26</p>
+      <blockquote>“And you might have seen the sun when it rose, inclining away from their cave on the right, and when it set, passing away from them on the left, while they were [laying] within an open space thereof...” (Qur’an 18:17, part)</blockquote>
+      <p class="date">521 AD</p>
+      <p class="source">Jacob of Sarug [<a href="https://www.newadvent.org/cathen/05496a.htm">newadvent.org</a>]</p>
+      <p class="quote">A group of youths sleeps in a cave for centuries, hidden by God, and later wakes up as a sign to their people.</p>
+
+    </div>
+
+    <div class="card" data-surah="18" style="--i:8">
+      <h2>Dhul-Qarnayn Builds the Barrier</h2>
+      <p class="verse">Qur’an 18:93–98</p>
+      <blockquote>So they said, "O Dhul-Qarnayn, indeed Gog and Magog are [great] corrupters in the land. So may we assign for you an expenditure that you might make between us and them a barrier?"...</blockquote>
+      <p class="date">3rd Century AD</p>
+      <p class="source">The History of Alexander the great [Legend	of	Alexander, trans. Budge, 153]</p>
+      <p class="quote">Alexander the Great builds a gate of iron between two mountains to contain barbaric tribes (Gog and Magog).</p>
+
+    </div>
+
+    
+    <div class="card" data-surah="19" style="--i:9">
+      <h2>Mary and the Palm Tree</h2>
+      <p class="verse">Qur’an 19:16–26</p>
+      <blockquote>tells how Mary withdrew in seclusion, was visited by an angel who announced she would bear a pure son, and miraculously conceived Jesus despite her virginity. In her labor pains beneath a palm tree, God comforted her with water and dates, showing His provision and power.</blockquote>
+      <p class="date">145 AD &amp; 600 AD</p>
+      <p class="source">Protoevangelium of James 17–18 [<a href="https://www.newadvent.org/fathers/0847.htm">newadvent.org</a>]; Pseudo-Gospel of Matthew 20 [<a href="https://www.newadvent.org/fathers/0848.htm">newadvent.org</a>]</p>
+      <p class="quote">
+        The Qur’an’s account of Mary giving birth under a palm tree and being nourished by dates and a spring 
+        parallels apocryphal traditions. The Protoevangelium of James (2nd century) places the birth of Jesus 
+        in a remote desert place, while the Gospel of Pseudo-Matthew (7th century) describes a miracle of a 
+        palm tree bending to give Mary fruit and a spring bursting forth at Jesus’ command.
+      </p>
+    </div>
+
+
+    <div class="card" data-surah="19" style="--i:9">
+      <h2>Abraham Argues with His Father About Idols</h2>
+      <p class="verse">Qur’an 19:41–50</p>
+      <blockquote>
+        “O my father, why do you worship that which does not hear or see or benefit you at all? … Indeed, I fear that a punishment from the Most Merciful will touch you, so you would be to Satan a companion.”  
+      </blockquote>
+      <p class="date">460 BC – 140 AD</p>
+      <p class="source">Book of Jubilees 12:2 [<a href="https://www.sefaria.org/Book_of_Jubilees.12.2?lang=bi&with=About&lang2=en">sefaria.org</a>]</p>
+      <p class="quote">
+        “And he [Abram] said to his father, Terah, 'Why do you worship things that have no spirit in them? For they are the work of hands... Do not worship them!'”
+      </p>
+
+    </div>
+
+    
+
+    <div class="card" data-surah="21" style="--i:7">
+      <h2>Abraham Cast into the Fire</h2>
+      <p class="verse">Qur’an 21:68, 69</p>
+      <blockquote>They said, "Burn him and support your gods—if you are going to act." We said, "O fire, be coolness and safety upon Abraham."</blockquote>
+      <p class="date">400 AD</p>
+      <p class="source">Bereshit (Genesis) Rabbah 38:13 [<a href="https://www.sefaria.org/Bereshit_Rabbah.38.13?lang=bi">sefaria.org</a>]</p>
+      <p class="quote">Nimrod cast Abraham into a burning furnace, but God miraculously saved him.</p>
+
+    </div>
+
+    <!-- Solomon’s Control over the Jinn -->
+    <div class="card" data-surah="21" style="--i:1">
+      <h2>Solomon’s Control over the Jinn and the Wind</h2>
+      <p class="verse">Qur’an 21:81, 82</p>
+      <blockquote>
+        Allah granted Solomon the power to command the wind and the jinn, who worked under his orders to build, carry out tasks, and perform labor according to his instructions.
+      </blockquote>
+      <p class="date">4th Century AD</p>
+      <p class="source">Targum Sheni (2nd Targum) of Esther 1:2:9 [<a href="https://www.sefaria.org/Targum_Sheni_on_Esther.1.2.9?lang=bi&with=About&lang2=en">sefaria.org</a>]</p>
+      <p class="quote">
+        "As King Solomon had spirits and demons under his command to perform tasks, similar to the jinn mentioned in the Qur’an."
+      </p>
+    </div>
+
+
+    <!-- Solomon’s Army: Men, Jinn, and Birds -->
+    <div class="card" data-surah="27" style="--i:1">
+      <h2>Solomon’s Army of Jinn, Men, and Birds</h2>
+      <p class="verse">Qur’an 27:16-17</p>
+      <blockquote>
+        And gathered for Solomon were his soldiers of the jinn and men and birds, and they were [marching] in rows. Until, when they came upon the valley of the ants, an ant said, "O ants, enter your dwellings that you not be crushed by Solomon and his soldiers while they perceive not."
+      </blockquote>
+      <p class="date">4th Century AD</p>
+      <p class="source">Targum Sheni (2nd Targum) of Esther 1:2:9 [<a href="https://www.sefaria.org/Targum_Sheni_on_Esther.1.2.9?lang=bi&with=About&lang2=en">sefaria.org</a>]</p>
+      <p class="quote">
+        "As King Solomon had wild animals as kings,  birds of the sky as riders, and spirits, demons, and liliths as soldiers."
+      </p>
+    </div>
+
+    <!-- Solomon Hears the Ant -->
+    <!-- <div class="card" data-surah="27" style="--i:2">
+      <h2>Solomon Hears the Ant</h2>
+      <p class="verse">Qur’an 27:19</p>
+      <blockquote>
+        So [Solomon] smiled, amused at her speech, and said, “My Lord, enable me to be grateful for Your favor which You have bestowed upon me and upon my parents and to do righteousness that You approve of...”
+      </blockquote>
+      <p class="date">1st–2nd Century AD</p>
+      <p class="source">Legends of the Jews 4:5:117</p>
+      <p class="quote">
+        Solomon, hearing the speech of the ant, marvels at God's gift of understanding animal language and gives thanks.
+      </p>
+    </div> -->
+
+    <!-- Solomon and the Hoopoe -->
+    <div class="card" data-surah="27" style="--i:3">
+      <h2>Solomon Loves the Hoopoe and Catches the Queen of Sheba Worshipping the Sun</h2>
+      <p class="verse">Qur’an 27:20–28</p>
+      <blockquote>
+        Then he inspected the birds, and said, “Why do I not see the hoopoe? Or is he among the absentees? I will punish him most severely, or slay him, unless he gives me a valid excuse.” But he did not stay for long. He said, “I have learnt something you did not know. I have come to you from Sheba, with reliable information... I found her and her people worshipping the sun, instead of God.”
+      </blockquote>
+      <p class="date">4th Century AD</p>
+      <p class="source">Targum Sheni (2nd Targum) of Esther 1:3 pp. 276-278</p>
+      <p class="quote">
+        Both Surah 27 and the Second Targum of Esther feature a bird who reports to Solomon about a distant queen ruling a wealthy land. In both, the bird is initially missing, then returns with news of the Queen of Sheba, her people's misguided worship, and her great throne. Solomon sends a letter via the bird, showcasing his power and prompting the queen’s eventual recognition of divine truth.  
+      </p>
+    </div>
+
+    <!-- Solomon Sends a Letter -->
+    <div class="card" data-surah="27" style="--i:4">
+      <h2>Solomon Sends a Letter, Sheba visits Solomon, Miraculus throne, Glass floor</h2>
+      <p class="verse">Qur’an 27:29–44</p>
+      <blockquote>
+        “Go with this letter of mine and deliver it to them, then withdraw and see what they return.” She said, “O counselors, a noble letter has been delivered to me.”
+      </blockquote>
+      <p class="date">4th Century AD</p>
+      <p class="source">Targum Sheni (2nd Targum) of Esther 1:3 pp. 278-283; 285</p>
+      <p class="quote">
+        Both the Qur’an and the Second Targum of Esther tell the story of the Queen of Sheba getting a letter from Solomon, asking her to submit. She talks to her advisors, sends gifts, and eventually visits Solomon. In both, she’s amazed by his power and wisdom. The Qur’an shows her throne being miraculously brought to Solomon and her mistaking a glass floor for water, lifting her dress. The Targum has the same glass-floor moment, but adds that Solomon sees her hairy legs and calls it shameful for a woman. That detail isn’t in the Qur’an, but later Islamic commentary picks it up and says demons helped her remove the hair. So the Targum is more direct and descriptive about the hairy legs part, while the Qur’an keeps it subtle and symbolic. Both end with her praising God and recognizing Solomon’s greatness.  
+      </p>
+    </div>
+
+    
+
+    <!-- <div class="card" data-surah="28" style="--i:5">
+      <h2>Story of Moses</h2>
+      <p class="verse">Qur’an 28:3–46</p>
+      <blockquote>“Indeed, Pharaoh exalted himself in the land and made its people into factions, oppressing a sector among them, slaughtering their [newborn] sons and keeping their females alive. Indeed, he was of the corrupters.” (Qur’an 28:4)</blockquote>
+      <p class="date">3rd–6th century CE</p>
+      <p class="source">Exodus Rabbah</p>
+      <p class="quote">Details on Moses’ infancy, his mother placing him in the Nile, and Pharaoh’s daughter rescuing him.</p>
+      <p class="similarity">Similarity: 85%</p>
+    </div> -->
+
+    <div class="card" data-surah="34" style="--i:6">
+      <h2>Solomon’s Wind and Demons</h2>
+      <p class="verse">Qur’an 34:12-14</p>
+      <blockquote>God gave Solomon control over the wind, allowing it to travel great distances in short time. He was also granted a flowing spring of molten copper and had jinn working under his command by God's permission, performing tasks and building structures.</blockquote>
+      <p class="date">4th Century AD</p>
+      <p class="source">Targum Sheni (2nd Targum) of Esther 1:3 pp. 269</p>
+      <p class="quote">Solomon commands demons and controls the wind by divine power to accomplish great feats.</p>
+    </div>
+
+    <div class="card" data-surah="85" style="--i:9">
+      <h2>People of the Ditch</h2>
+      <p class="verse">Qur’an 85:4–7</p>
+      <blockquote>Cursed were the companions of the trench - [Containing] the fire full of fuel, When they were sitting near it, And they, to what they were doing against the believers, were witnesses.</blockquote>
+      <p class="date">523 AD</p>
+      <p class="source">(The Martyrs of Najran) [<a href="https://www.saintarethasconfraternity.org/martyrs-of-najran">saintarethasconfraternity.org</a>]</p>
+      <p class="quote">A king tried to burn Christians alive in a trench because of their faith, and they refused to recant.</p>
+
+    </div>
+
+    <!-- <div class="card" data-surah="87" style="--i:7">
+      <h2>Scrolls of Abraham</h2>
+      <p class="verse">Qur’an 87:18–19</p>
+      <blockquote>“Indeed, this is in the former scriptures, the scriptures of Abraham and Moses.” (Qur’an 87:18–19)</blockquote>
+      <p class="date">1st–2nd century CE</p>
+      <p class="source">Apocalypse of Abraham</p>
+      <p class="quote">Abraham receives visions and revelations from God in a heavenly journey and is shown divine secrets.</p>
+      <p class="similarity">Similarity: 65%</p>
+    </div> -->
+
+
+    <footer class="footer">
+      <p>&copy; 2026 SourcesOfTheQuran.com. All rights reserved.</p>
+    </footer>
+    <div class="more-incoming">
+      <p>📚 More incoming...</p>
+    </div>
+
+
+  </div>
+
+  <script>
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('click', () => {
+        card.classList.toggle('open');
+      });
+
+      // const similarityText = card.querySelector('.similarity');
+      // if (similarityText) {
+      //   const match = similarityText.textContent.match(/(\d+)%/);
+      //   if (match) {
+      //     const percentage = parseInt(match[1]);
+      //     let bgColor = '';
+
+      //     if (percentage >= 85) {
+      //       bgColor = '#c6f6d5'; // green - very strong
+      //     } else if (percentage >= 75) {
+      //       bgColor = '#fefcbf'; // yellow - strong
+      //     } else if (percentage >= 60) {
+      //       bgColor = '#fbd38d'; // orange - moderate
+      //     } else {
+      //       bgColor = '#feb2b2'; // red - weak
+      //     }
+
+      //     card.style.backgroundColor = bgColor;
+      //   }
+      // }
+    });
+
+    document.getElementById('chapterFilter').addEventListener('change', function () {
+      const selected = this.value;
+      document.querySelectorAll('.card').forEach(card => {
+        if (selected === 'all' || card.dataset.surah === selected) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  </script>
+
+
+</body>
+</html>
