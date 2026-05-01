@@ -671,10 +671,8 @@ function renderFocus(f){
     };
     addContentRow('Content', s.content);
     addRow('Unit', s.unit);
-    addRow('Alt. title(s)', s.alt_titles);
     addRow('Reference', s.reference_link);
-    addRow('Source dating', s.source_dating);
-    addRow('Text Composition', s.date_range ? 'ca. ' + s.date_range : s.date_range);
+    addRow('Date range', s.date_range);
     addRow('Date of MS', s.date_range_ms);
     addRow('Earliest', s.earliest_antecedent);
     addRow('Translator', s.translator);
@@ -687,7 +685,9 @@ function renderFocus(f){
     addRow('Place of origin', s.place_of_origin);
     addRow('Literary category', s.broad_category);
     addRow('Genre', s.genre);
+    addRow('Alt. title(s)', s.alt_titles);
     addRow('Commentary', s.commentary);
+    addRow('Source dating', s.source_dating);
     addRow('Overlap', s.overlap);
     addRow('Amalgamation', s.amalgamation);
     addRow('Islamic categorisation', s.islamic_categorisation);
