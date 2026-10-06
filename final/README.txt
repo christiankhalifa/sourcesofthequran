@@ -10,7 +10,7 @@ Maulana Wahiduddin Khan (MWK) English translation.
 Files in this folder
 --------------------
   index.html                 The website (open or serve this).
-  IQP_Database__Sharu_.xlsx  The database. This is the file you edit to add data.
+  IQP_Database (Suha).xlsx  The database. This is the file you edit to add data.
   quran-data.js              The MWK translation, used to display verse text.
   xlsx.full.min.js           The spreadsheet reader (SheetJS).
 
@@ -26,7 +26,7 @@ So the page can read the spreadsheet automatically, serve the folder:
 
 Adding or changing antecedents
 ------------------------------
-  1. Edit IQP_Database__Sharu_.xlsx and save it (keep the same filename and the
+  1. Edit IQP_Database (Suha).xlsx and save it (keep the same filename and the
      same column headers — the page matches columns by header name, so columns
      may be reordered but should keep their names).
   2. In the browser, press "Reload data" (or just refresh the page).
