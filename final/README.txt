@@ -12,9 +12,13 @@ Files in this folder
   index.html                 The website (open or serve this).
   IQP_Database (Suha).xlsx  The database. This is the file you edit to add data.
   quran-data.js              The MWK translation, used to display verse text.
+  bible-data.js              The Berean Standard Bible (CC0 / public domain; same Old
+                             Testament wording as the MSB), used to display Bible
+                             verse text. A row's own "Source Text" is shown instead
+                             when it is filled in.
   xlsx.full.min.js           The spreadsheet reader (SheetJS).
 
-Keep all four files together in the same folder.
+Keep all five files together in the same folder.
 
 How to run it (recommended)
 ---------------------------
