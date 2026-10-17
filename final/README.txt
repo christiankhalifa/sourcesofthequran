@@ -17,8 +17,9 @@ Files in this folder
                              verse text. A row's own "Source Text" is shown instead
                              when it is filled in.
   xlsx.full.min.js           The spreadsheet reader (SheetJS).
+  iqp-logo.png               The IQP logo shown in the header.
 
-Keep all five files together in the same folder.
+Keep all six files together in the same folder.
 
 How to run it (recommended)
 ---------------------------
