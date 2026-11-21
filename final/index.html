@@ -55,6 +55,7 @@ header{
 .brand-text{grid-column:2; display:flex; flex-direction:column; align-items:center; gap:4px; min-width:0; text-align:center}
 .mark{font-family:var(--serif); font-weight:600; font-size:clamp(1.5rem, 3vw, 42px); line-height:1.05; letter-spacing:0.01em; white-space:nowrap; color:var(--ink)}
 .mark .of{font-style:italic; font-weight:400; color:var(--accent)}
+em.it{font-style:italic}
 .tagline{font-family:var(--serif); font-style:italic; font-size:1.3rem; color:var(--ink-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
 /* search, reload and status sit at the right end of the Synopsis / About / Resources / Contact row */
 .head-tools{margin-left:auto; align-self:center; display:flex; align-items:center; gap:10px; padding:0.35rem 0}
@@ -539,19 +540,24 @@ const HEADER_ALIASES = {
   "countertraditionunit":["counterunit","biblicalunit"],
   "content":["description","summary","gloss"]
 };
-// build normalized-key row accessor with loose + alias fallback
-function rowGetter(row){
+// build normalized-key row accessor with loose + alias fallback.
+// G(name) -> cleaned text;  G.segs(name) -> italic runs for the same cell (or null)
+function rowGetter(row, rich){
   const map = {}, loose = {};
-  for(const k in row){ map[normHeader(k)] = row[k]; loose[looseHeader(k)] = row[k]; }
-  return (name)=>{
-    let v = map[normHeader(name)];
-    if(v==null || v===""){ v = loose[looseHeader(name)]; }
-    if(v==null || v===""){
+  for(const k in row){ map[normHeader(k)] = k; loose[looseHeader(k)] = k; }
+  const empty = k => k==null || row[k]==null || row[k]==="";
+  const find = (name)=>{
+    let k = map[normHeader(name)];
+    if(empty(k)) k = loose[looseHeader(name)];
+    if(empty(k)){
       const aliases = HEADER_ALIASES[looseHeader(name)];
-      if(aliases) for(const a of aliases){ if(loose[a]!=null && loose[a]!==""){ v = loose[a]; break; } }
+      if(aliases) for(const a of aliases){ if(!empty(loose[a])){ k = loose[a]; break; } }
     }
-    return clean(v);
+    return k;
   };
+  const G = (name)=>{ const k = find(name); return clean(k==null ? "" : row[k]); };
+  G.segs = (name)=>{ const k = find(name); return (rich && k!=null && rich[k]) || null; };
+  return G;
 }
 function normDash(s){ return String(s).replace(/[\u2010\u2011\u2012\u2013\u2014\u2015\u2212]/g,"-"); }
 
@@ -628,6 +634,117 @@ function esc(s){ return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",
 // linkify a citation that may contain a URL
 function linkify(s){
   return esc(s).replace(/(https?:\/\/[^\s);]+)(?=[);.\s]|$)/g,'<a href="$1" target="_blank" rel="noopener">link</a>');
+}
+
+/* ---------------- italics from the spreadsheet ----------------
+   SheetJS (community) drops cell fonts, so italics are read straight from the .xlsx XML:
+   - rich-text runs inside a cell (<r><rPr><i/>…)   -> only those runs are italic
+   - a cell whose whole style is italic (cellXfs -> font) -> the whole cell is italic
+   Result: ITALICS[sheetName][cellRef] = [{t:"text", i:true|false}, …]  (only cells that contain italics) */
+function xmlText(s){
+  return s.replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/&quot;/g,'"').replace(/&apos;/g,"'")
+          .replace(/&#(\d+);/g,(m,d)=>String.fromCodePoint(+d)).replace(/&#x([0-9a-f]+);/gi,(m,h)=>String.fromCodePoint(parseInt(h,16)))
+          .replace(/&amp;/g,"&");
+}
+function bytesToStr(c){
+  if(typeof c==="string") return c;
+  if(typeof TextDecoder!=="undefined") return new TextDecoder("utf-8").decode(c instanceof Uint8Array ? c : new Uint8Array(c));
+  let s=""; for(let i=0;i<c.length;i++) s+=String.fromCharCode(c[i]); return decodeURIComponent(escape(s));
+}
+function isOn(tag){ // <i/>, <i val="1"/>, <i val="true"/> on; val="0"/"false" off
+  const m = tag.match(/val="([^"]*)"/); return !m || !(m[1]==="0"||m[1]==="false");
+}
+// <si>/<is> content -> segments; plain (non-rich) strings come back as one non-italic segment
+function segsOfSi(xml){
+  const runs = xml.match(/<r>[\s\S]*?<\/r>/g);
+  const textOf = s => { let o=""; (s.match(/<t(?:\s[^>]*)?>[\s\S]*?<\/t>|<t\s*\/>/g)||[]).forEach(t=>{ o+=xmlText(t.replace(/^<t[^>]*>|<\/t>$/g,"")); }); return o; };
+  if(!runs) return [{t:textOf(xml), i:false, rich:false}];
+  return runs.map(r=>{
+    const rp = r.match(/<rPr>([\s\S]*?)<\/rPr>/);
+    const it = rp ? (rp[1].match(/<i(?:\s[^>]*)?\/>/)||[null])[0] : null;
+    return { t:textOf(r.replace(/<rPr>[\s\S]*?<\/rPr>/,"")), i: !!(it && isOn(it)), rich:true };
+  });
+}
+function buildItalicIndex(wb){
+  const out = {};
+  try{
+    const F = wb.files || {};
+    const get = p => { const f = F[p] || F["/"+p]; return f ? bytesToStr(f.content) : ""; };
+    const styles = get("xl/styles.xml"), sst = get("xl/sharedStrings.xml");
+    // italic fonts -> italic cellXfs
+    const fontsXml = (styles.match(/<fonts[\s\S]*?<\/fonts>/)||[""])[0];
+    const fonts = fontsXml.match(/<font(?:\s[^>]*)?\/>|<font(?:\s[^>]*)?>[\s\S]*?<\/font>/g) || [];
+    const italicFont = fonts.map(f=>{ const m=f.match(/<i(?:\s[^>]*)?\/>/); return !!(m && isOn(m[0])); });
+    const xfsXml = (styles.match(/<cellXfs[\s\S]*?<\/cellXfs>/)||[""])[0];
+    const xfs = xfsXml.match(/<xf\s[^>]*?(?:\/>|>[\s\S]*?<\/xf>)/g) || [];
+    const italicXf = xfs.map(x=>{ const m=x.match(/fontId="(\d+)"/); return !!(m && italicFont[+m[1]]); });
+    const sis = (sst.match(/<si>[\s\S]*?<\/si>|<si\/>/g) || []).map(segsOfSi);
+    // sheet name -> file
+    const wbx = get("xl/workbook.xml"), rels = get("xl/_rels/workbook.xml.rels");
+    const relTarget = {}; (rels.match(/<Relationship\s[^>]*>/g)||[]).forEach(r=>{
+      const id=(r.match(/\sId="([^"]*)"/)||[])[1], t=(r.match(/\sTarget="([^"]*)"/)||[])[1];
+      if(id&&t) relTarget[id] = t.replace(/^\//,"").replace(/^(?!xl\/)/,"xl/");
+    });
+    (wbx.match(/<sheet\s[^>]*>/g)||[]).forEach(s=>{
+      const name = xmlText((s.match(/\sname="([^"]*)"/)||[])[1]||"");
+      const rid = (s.match(/\sr:id="([^"]*)"/)||[])[1];
+      const xml = rid && relTarget[rid] ? get(relTarget[rid]) : "";
+      if(!xml) return;
+      const map = {};
+      (xml.match(/<c\s[^>]*?(?:\/>|>[\s\S]*?<\/c>)/g)||[]).forEach(c=>{
+        const open = c.match(/^<c\s[^>]*?>/)[0];
+        const ref = (open.match(/\sr="([^"]*)"/)||[])[1];
+        const t = (open.match(/\st="([^"]*)"/)||[])[1];
+        const s = (open.match(/\ss="(\d+)"/)||[])[1];
+        const wholeItalic = s!=null && italicXf[+s];
+        let segs = null;
+        if(t==="s"){ const v=(c.match(/<v>(\d+)<\/v>/)||[])[1]; if(v!=null) segs = sis[+v]; }
+        else if(t==="inlineStr"){ const is=c.match(/<is>[\s\S]*?<\/is>/); if(is) segs = segsOfSi(is[0].replace(/^<is>|<\/is>$/g,"")); }
+        if(!segs) return;
+        const rich = segs.some(x=>x.rich);
+        if(rich){ if(segs.some(x=>x.i)) map[ref] = segs; }          // runs decide
+        else if(wholeItalic && segs[0].t) map[ref] = [{t:segs[0].t, i:true}];
+      });
+      out[name] = map;
+    });
+  }catch(e){ /* italics are a nicety — never break loading */ }
+  return out;
+}
+
+let ITALICS = {};   // filled by ingest(): sheet -> cellRef -> segments
+// collapse whitespace + trim exactly like clean(), keeping italic flags; null unless some italics survive AND the text matches the plain cell text
+function normSegs(segs, plain){
+  const chars=[];
+  segs.forEach(s=>{ for(const ch of Array.from(s.t)) chars.push([/\s/.test(ch)?" ":ch, !!s.i]); });
+  const out=[];
+  chars.forEach(c=>{ if(c[0]===" " && out.length && out[out.length-1][0]===" ") return; out.push(c); });
+  while(out.length && out[0][0]===" ") out.shift();
+  while(out.length && out[out.length-1][0]===" ") out.pop();
+  const text = out.map(c=>c[0]).join("");
+  if(text !== String(plain).replace(/\s+/g," ").trim()) return null;
+  const res=[]; out.forEach(([ch,i])=>{ const l=res[res.length-1]; if(l && l.i===i) l.t+=ch; else res.push({t:ch,i}); });
+  return res.some(s=>s.i) ? res : null;
+}
+function sliceSegs(segs, start, end){
+  if(!segs) return null;
+  if(end==null) end = Infinity;
+  const res=[]; let pos=0;
+  segs.forEach(s=>{
+    const a=Math.max(start,pos), b=Math.min(end,pos+s.t.length);
+    if(b>a) res.push({t:s.t.slice(a-pos,b-pos), i:s.i});
+    pos += s.t.length;
+  });
+  return res.some(s=>s.i) ? res : null;
+}
+// HTML for a text that may carry italic runs (falls back to plain escaping); linkUrls turns bare URLs into links
+function H(text, segs, linkUrls){
+  const one = (s)=>{
+    let h = esc(s);
+    if(linkUrls) h = h.replace(/(https?:\/\/[^\s);]+)(?=[);.\s]|$)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>');
+    return h;
+  };
+  if(!segs) return one(text);
+  return segs.map(s=> s.i ? `<em class="it">${one(s.t)}</em>` : one(s.t)).join("");
 }
 
 /* ---------------- model ---------------- */
@@ -734,30 +851,57 @@ function buildModel(wb){
   ].map(normHeader));
 
   // every populated cell in the row, in spreadsheet column order, minus the skip set
-  function orderedFields(raw, headers, skip){
+  function orderedFields(raw, headers, skip, rich){
     const out = [];
     headers.forEach(h=>{
       const v = clean(raw[h]);
       if(!v) return;
       if(skip.has(normHeader(h))) return;
-      out.push({ label: String(h).replace(/\s+/g," ").trim(), value: v });
+      out.push({ label: String(h).replace(/\s+/g," ").trim(), value: v, segs: (rich && rich[h]) || null });
     });
     return out;
   }
 
   wb.SheetNames.forEach(sheetName=>{
-    const grid = XLSX.utils.sheet_to_json(wb.Sheets[sheetName], {header:1, raw:false, defval:""});
+    const ws = wb.Sheets[sheetName];
+    const grid = XLSX.utils.sheet_to_json(ws, {header:1, raw:false, defval:""});
     const headers = (grid[0]||[]).map(h=>String(h)).filter(h=>h.trim()!=="");
-    const rows = XLSX.utils.sheet_to_json(wb.Sheets[sheetName], {raw:false, defval:""});
-    rows.forEach(raw=>{
-      const G = rowGetter(raw);
+    // rows keyed by header (duplicate headers get _1, _2 … like SheetJS), plus a parallel table of italic runs per cell
+    const keys = []; const seen = {};
+    (grid[0]||[]).forEach((h,c)=>{
+      h = String(h);
+      if(h.trim()===""){ keys[c]=null; return; }
+      const n = seen[h] = (seen[h]||0) + 1;
+      keys[c] = n>1 ? h+"_"+(n-1) : h;
+    });
+    const rng = ws && ws["!ref"] ? XLSX.utils.decode_range(ws["!ref"]) : null;
+    const ital = ITALICS[sheetName] || {};
+    const rows = [], richRows = [];
+    for(let r=1; r<grid.length; r++){
+      const gr = grid[r], obj = {}, ro = {};
+      let any = false;
+      keys.forEach((key,c)=>{
+        if(!key) return;
+        const v = gr[c]==null ? "" : gr[c];
+        obj[key] = v; if(String(v)!=="") any = true;
+        if(rng){
+          const segs = ital[XLSX.utils.encode_cell({r:rng.s.r+r, c:rng.s.c+c})];
+          if(segs){ const ns = normSegs(segs, v); if(ns) ro[key] = ns; }
+        }
+      });
+      if(any){ rows.push(obj); richRows.push(ro); }
+    }
+    rows.forEach((raw, ri)=>{
+      const rich = richRows[ri];
+      const G = rowGetter(raw, rich);
       const topic = G("Broad Topic");
       const focus = G("Focus Point");
       if(!topic || !focus) return;
       const node = nodeFor(topic, focus);
+      { const fs = G.segs("Focus Point"); if(fs && !node.focusSegs) node.focusSegs = fs; }
       const sub = G("Subtopic"); if(sub && !node.subtopic) node.subtopic = sub;
       const unit = G("Qur'anic Unit"); if(unit && !node.quranUnit) node.quranUnit = unit;
-      const lf = G("Long Focus Point"); if(lf){ (node.longCands = node.longCands||[]).push(lf); if(!node.longFocus) node.longFocus = lf; }
+      const lf = G("Long Focus Point"); if(lf){ (node.longCands = node.longCands||[]).push(lf); (node.longCandSegs = node.longCandSegs||[]).push(G.segs("Long Focus Point")); if(!node.longFocus) node.longFocus = lf; }
       addRefs(node, G("Qur'anic Reference(s)"));
 
       // category comes only from column P ("Broad Literary Category"); blank -> no label ("")
@@ -769,8 +913,10 @@ function buildModel(wb){
                  || G("Counter-Tradition(s)") || G("Counter-Tradition");
         const desc = G("Significance") || G("Content");
         if(!ref && !desc) return; // nothing to show
+        let refSegs = null;
+        for(const nm of ["Biblical Reference(s)","Biblical Unit","Counter-Tradition(s)","Counter-Tradition"]){ if(G(nm)){ refSegs = G.segs(nm); break; } }
         const verses = bibleVersesFor(ref, G("Source Text"), G("Translator(s)"));
-        let fields = orderedFields(raw, headers, SKIP_BIBLE);
+        let fields = orderedFields(raw, headers, SKIP_BIBLE, rich);
         if(verses.fromSource) fields = fields.filter(f=> normHeader(f.label)!=="source text"); // already shown as the verses
         node.bible.push({
           labelled: trad==="Biblical",
@@ -780,6 +926,7 @@ function buildModel(wb){
                : /^orange\s*frame\b/i.test(G("Earliest Antecedent")) ? "orange"
                : /^yellow\s*frame\b/i.test(G("Earliest Antecedent")) ? "yellow" : "",
           ref: ref || "Biblical reference",
+          refSegs: ref ? refSegs : null,
           date: G("Presumed Composition Date"),
           teaser: "",   // collapsed Bible tile = reference + date; verse text shows when expanded
           verses: verses.list,
@@ -788,10 +935,13 @@ function buildModel(wb){
       } else {
         const title = G("Antecedent");
         if(!title) return;
+        const work = workName(title), titleSegs = G.segs("Antecedent");
         node.antecedents.push({
           trad,
           title,
-          work: workName(title),
+          titleSegs,
+          work,
+          workSegs: titleSegs && title.startsWith(work) ? sliceSegs(titleSegs, 0, work.length) : null,
           earliest: /^yes\b/i.test(G("Earliest Antecedent")),
           frame: /^red\s*frame\b/i.test(G("Earliest Antecedent")) ? "red"
                : /^green\s*frame\b/i.test(G("Earliest Antecedent")) ? "green"
@@ -799,7 +949,7 @@ function buildModel(wb){
                : /^yellow\s*frame\b/i.test(G("Earliest Antecedent")) ? "yellow" : "",
           teaser: G("Presumed Composition Date"),
           dkey: dateKey(G("Presumed Composition Date")),
-          fields: orderedFields(raw, headers, SKIP)
+          fields: orderedFields(raw, headers, SKIP, rich)
         });
       }
     });
@@ -815,12 +965,20 @@ function buildModel(wb){
     const m = n.focus.match(/^([A-Za-z]*\d+)\s*[:.]\s*(.*)$/);
     n.fcode = m ? m[1] : "";
     n.flabel = m ? m[2] : n.focus;
+    n.flabelSegs = sliceSegs(n.focusSegs, n.focus.length - n.flabel.length);
     // heading = long focus point (code prefix stripped); only trust a long title whose code matches this motif's
-    n.ftitle = n.flabel;
-    for(const lf of (n.longCands||[])){
+    n.ftitle = n.flabel; n.ftitleSegs = n.flabelSegs;
+    const cands = n.longCands||[];
+    for(let li=0; li<cands.length; li++){
+      const lf = cands[li];
       const lm = lf.trim().match(/^([A-Za-z]*\d+)\s*[:.]\s*(.*)$/);
       const code = lm ? lm[1] : "", text = (lm ? lm[2] : lf).trim();
-      if(text && (!n.fcode || !code || code.toUpperCase()===n.fcode.toUpperCase())){ n.ftitle = text; break; }
+      if(text && (!n.fcode || !code || code.toUpperCase()===n.fcode.toUpperCase())){
+        n.ftitle = text;
+        const ls = (n.longCandSegs||[])[li];
+        n.ftitleSegs = ls && lf===lf.trim() ? sliceSegs(ls, lf.length - text.length, lf.length) : null;
+        break;
+      }
     }
   });
 
@@ -846,6 +1004,7 @@ function buildModel(wb){
   list.forEach(n=> n.antecedents.forEach(a=>{
     if(!workMap.has(a.work)) workMap.set(a.work, {work:a.work, trads:new Set(), tradCount:{}, nodes:new Set()});
     const w = workMap.get(a.work); w.trads.add(a.trad); w.nodes.add(n);
+    if(a.workSegs && !w.workSegs) w.workSegs = a.workSegs;
     if(a.trad) w.tradCount[a.trad] = (w.tradCount[a.trad]||0) + 1;
   }));
 
@@ -915,7 +1074,7 @@ function renderSidebar(){
       h += `<div class="nav-group" style="color:var(--${t.toLowerCase()})">${esc(label)}</div>`;
       arr.forEach(w=>{
         h += `<button class="nav-item" data-work="${esc(w.work)}">
-          <span>${esc(w.work)}</span>
+          <span>${H(w.work, w.workSegs)}</span>
           <span class="count">${w.nodes.size}</span></button>`;
       });
     });
@@ -925,7 +1084,7 @@ function renderSidebar(){
 function navNode(n){
   return `<button class="nav-item" data-id="${n.id}" aria-current="${CURRENT===n.id}">
     <span class="lead">${esc(n.fcode||"·")}</span>
-    <span>${esc(n.flabel)}</span>
+    <span>${H(n.flabel, n.flabelSegs)}</span>
     <span class="count">${n.antecedents.length+n.bible.length}</span></button>`;
 }
 
@@ -935,7 +1094,7 @@ function motifBox(n){
   const b = n.bible.length;
   return `<button class="motif-box" data-id="${n.id}">
     ${n.subtopic?`<span class="mb-topic">${esc(n.subtopic)}</span>`:""}
-    <span class="mb-title">${n.fcode?`<span class="mb-code">${esc(n.fcode)}</span>`:""}${esc(n.flabel)}</span>
+    <span class="mb-title">${n.fcode?`<span class="mb-code">${esc(n.fcode)}</span>`:""}${H(n.flabel, n.flabelSegs)}</span>
     <span class="mb-counts">
       ${TRADS.map(t=>{ const k=n.antecedents.filter(x=>x.trad===t.key).length;
         return k?`<span class="mb-c"><i class="d ${t.cls}"></i>${k} ${t.short}</span>`:""; }).join("")}
@@ -960,10 +1119,10 @@ function boxesGrid(nodes){
   return h;
 }
 
-function renderBoxes(title, crumb, nodes){
-  lastBrowse = ()=>renderBoxes(title, crumb, nodes);
+function renderBoxes(title, crumb, nodes, titleHtml){
+  lastBrowse = ()=>renderBoxes(title, crumb, nodes, titleHtml);
   contentEl.innerHTML = `<div class="crumb">${crumb}</div>
-    <h1 class="focus-head" style="font-size:24px;margin-bottom:18px">${esc(title)}</h1>
+    <h1 class="focus-head" style="font-size:24px;margin-bottom:18px">${titleHtml||esc(title)}</h1>
     ${boxesGrid(nodes)}`;
   main.scrollTop=0;
   closeDrawer();
@@ -976,7 +1135,7 @@ function renderNode(id){
   CURRENT = id;
 
   const crumb = `<button class="back" id="backBtn" type="button">‹ Back to motifs</button>
-    <div class="crumb"><b>${esc(n.topic)}</b>${n.subtopic?`<span class="sep">›</span>${esc(n.subtopic)}`:""}<span class="sep">›</span>${esc(n.focus)}</div>`;
+    <div class="crumb"><b>${esc(n.topic)}</b>${n.subtopic?`<span class="sep">›</span>${esc(n.subtopic)}`:""}<span class="sep">›</span>${H(n.focus, n.focusSegs)}</div>`;
 
   // column 1 — Qur'an
   let q = "";
@@ -1006,7 +1165,7 @@ function renderNode(id){
     };
     n.antecedents.slice().sort((x,y)=> chrono(x,y) || rank(x.trad)-rank(y.trad) ).forEach(ant=>{
       const t = TRAD_BY_KEY[ant.trad];
-      a += tile((t?t.cls:"u")+(ant.earliest?" earliest":"")+(ant.frame?" frame-"+ant.frame:""), t?t.label:"", ant.title, ant.teaser, ant.fields);
+      a += tile((t?t.cls:"u")+(ant.earliest?" earliest":"")+(ant.frame?" frame-"+ant.frame:""), t?t.label:"", ant.title, ant.teaser, ant.fields, undefined, undefined, ant.titleSegs);
     });
   } else {
     a = `<div class="empty-col">No extra-biblical antecedent recorded for this focus point.</div>`;
@@ -1015,14 +1174,14 @@ function renderNode(id){
   // column 3 — biblical counter-tradition (sheet 1), part of the same antecedent record
   let b = "";
   if(n.bible.length){
-    n.bible.forEach(bib=> b += tile("bib"+(bib.earliest?" earliest":"")+(bib.frame?" frame-"+bib.frame:""), bib.labelled?"The Bible":"", bib.ref, bib.teaser, bib.fields, bib.date, bib.verses));
+    n.bible.forEach(bib=> b += tile("bib"+(bib.earliest?" earliest":"")+(bib.frame?" frame-"+bib.frame:""), bib.labelled?"The Bible":"", bib.ref, bib.teaser, bib.fields, bib.date, bib.verses, bib.refSegs));
   } else {
     b = `<div class="empty-col">Nothing from the Bible recorded for this motif.</div>`;
   }
 
   contentEl.innerHTML = `
     ${crumb}
-    <h1 class="focus-head">${n.fcode?`<span class="fcode">${esc(n.fcode)}</span>`:""}${esc(n.ftitle)}</h1>
+    <h1 class="focus-head">${n.fcode?`<span class="fcode">${esc(n.fcode)}</span>`:""}${H(n.ftitle, n.ftitleSegs)}</h1>
     <div class="focus-meta">
       ${n.refs.length?`<span class="chip"><span class="k">The Qur'an</span> ${n.refs.length} verse${n.refs.length>1?"s":""}</span>`:""}
       ${TRADS.map(t=>{ const k=n.antecedents.filter(x=>x.trad===t.key).length;
@@ -1054,14 +1213,14 @@ function renderNode(id){
 }
 
 // an expandable source tile: collapsed shows tradition + title (+ teaser); click reveals all row fields
-function tile(cls, tradLabel, title, teaser, fields, date, verses){
+function tile(cls, tradLabel, title, teaser, fields, date, verses, titleSegs){
   const hasVerses = verses && verses.length;
   const hasFields = true;   // every tile expands; one with nothing more recorded says so (see fieldsList)
   return `<div class="card ${cls}" data-open="false">
     <button type="button" class="tile-head" aria-expanded="false"${hasFields?"":' disabled'}>
       <span class="tile-main">
         ${tradLabel?`<span class="card-trad">${esc(tradLabel)}</span>`:""}
-        <span class="card-title">${esc(title)}</span>
+        <span class="card-title">${H(title, titleSegs)}</span>
         ${date?`<span class="tile-teaser tile-date">${esc(date)}</span>`:""}
         ${teaser?`<span class="tile-teaser">${esc(teaser)}</span>`:""}
       </span>
@@ -1076,8 +1235,7 @@ function tile(cls, tradLabel, title, teaser, fields, date, verses){
 function fieldsList(fields, hasVerses){
   if(!fields.length && !hasVerses) return `<div class="field empty-note">No further details recorded for this source yet.</div>`;
   return fields.map(f=>{
-    const v = esc(f.value).replace(/(https?:\/\/[^\s);]+)(?=[);.\s]|$)/g,
-      '<a href="$1" target="_blank" rel="noopener">$1</a>');
+    const v = H(f.value, f.segs, true);
     return `<div class="field"><div class="fk">${esc(f.label)}</div><div class="fv">${v}</div></div>`;
   }).join("");
 }
@@ -1106,8 +1264,9 @@ browseEl.addEventListener("click",e=>{
   }
   else if(item.dataset.work){
     const w=MODEL.workMap.get(item.dataset.work);
+    const wh = H(item.dataset.work, w.workSegs);
     renderBoxes(item.dataset.work,
-      `<b>By Antecedent</b><span class="sep">›</span>${esc(item.dataset.work)}`, [...w.nodes]);
+      `<b>By Antecedent</b><span class="sep">›</span>${wh}`, [...w.nodes], wh);
     closeDrawer();
   }
 });
@@ -1197,6 +1356,7 @@ function renderDefault(){
 
 /* ---------------- data loading ---------------- */
 function ingest(wb, source){
+  ITALICS = buildItalicIndex(wb);
   MODEL = buildModel(wb);
   if(!MODEL.nodes.length){
     setStatus("err","No usable rows");
@@ -1212,7 +1372,7 @@ function ingest(wb, source){
 function loadEmbedded(){
   if(!window.IQP_EMBEDDED_XLSX) return false;
   try{
-    const wb = XLSX.read(window.IQP_EMBEDDED_XLSX,{type:"base64"});
+    const wb = XLSX.read(window.IQP_EMBEDDED_XLSX,{type:"base64",bookFiles:true});
     ingest(wb, "Built-in");
     return true;
   }catch(err){ return false; }
@@ -1223,7 +1383,7 @@ async function loadFromFetch(){
   const res = await fetch(XLSX_FILE, {cache:"no-store"});
   if(!res.ok) throw new Error("HTTP "+res.status);
   const buf = await res.arrayBuffer();
-  const wb = XLSX.read(buf,{type:"array"});
+  const wb = XLSX.read(buf,{type:"array",bookFiles:true});
   ingest(wb, "Live");
 }
 
@@ -1255,7 +1415,7 @@ fileInput.addEventListener("change",e=>{ const f=e.target.files[0]; if(f) readFi
 function readFile(file){
   setStatus("","Reading "+file.name+"…");
   const fr=new FileReader();
-  fr.onload=()=>{ try{ const wb=XLSX.read(new Uint8Array(fr.result),{type:"array"}); ingest(wb,"Uploaded"); }
+  fr.onload=()=>{ try{ const wb=XLSX.read(new Uint8Array(fr.result),{type:"array",bookFiles:true}); ingest(wb,"Uploaded"); }
     catch(err){ setStatus("err","Read failed"); showUpload("That file couldn't be read as .xlsx."); } };
   fr.onerror=()=>{ setStatus("err","Read failed"); showUpload("The file couldn't be opened."); };
   fr.readAsArrayBuffer(file);

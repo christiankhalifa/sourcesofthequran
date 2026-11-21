@@ -55,3 +55,10 @@ Note: the built-in copy is a snapshot. Edits you make to the .xlsx are picked up
 automatically only when the folder is served (see above; status shows "Live").
 When opened by double-click, press "Reload data" and choose the edited .xlsx to
 view your changes, or ask for the built-in copy to be refreshed.
+
+Italics
+-------
+Italic formatting in the spreadsheet (a whole cell, or just part of a cell, e.g. a
+work title inside a citation) is carried through and shown in italics on the site —
+in focus-point headings, antecedent titles and all detail fields. Nothing extra is
+needed: format text as italic in Excel, save, and press "Reload data".
